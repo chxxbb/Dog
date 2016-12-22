@@ -1,17 +1,9 @@
 package com.example.administrator.rilegou.fragment;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,11 +17,8 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.clusterutil.clustering.Cluster;
-import com.baidu.mapapi.clusterutil.clustering.ClusterItem;
 import com.baidu.mapapi.clusterutil.clustering.ClusterManager;
 import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BitmapDescriptor;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -37,14 +26,19 @@ import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.example.administrator.rilegou.R;
-import com.example.administrator.rilegou.activity.MainActivity;
 import com.example.administrator.rilegou.adapter.HotspotListViewAdapter;
 import com.example.administrator.rilegou.data.AdapterItemList;
 import com.example.administrator.rilegou.data.MapData;
+import com.example.administrator.rilegou.data.Map_Lbs_Json_Data.Root;
 import com.example.administrator.rilegou.data.MyItem;
+import com.google.gson.Gson;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
 
 /**
  * Created by Administrator on 2016/12/8 0008.
@@ -295,6 +289,35 @@ public class HotspotFragment extends Fragment {
      * 向地图添加Marker点
      */
     public void addMarkers() {
+
+        OkHttpUtils
+                .get()
+                .url("http://api.map.baidu.com/geosearch/v3/nearby" + "?" + MapData.mCode)
+                .addParams("ak", "6lKaHhn3GieVEaTZFCaEC3XrFdOFbHMX")
+                .addParams("geotable_id", "160652")
+                .addParams("location", "104.069145" + "," + "30.619118")
+                .addParams("radius", "1000")
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                Toast.makeText(getActivity(), "网络连接失败", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                Gson gson = new Gson();
+                System.out.println(response);
+                Root root = gson.fromJson(response, Root.class);
+                if (root.getStatus() == 0) {
+                    System.out.println("检索反馈正常");
+                    System.out.println("经度 : " + root.getContents().get(0).getLocation().get(0));
+                } else {
+                    Toast.makeText(getActivity(), "" + response, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
         // 添加Marker点
         LatLng llA = new LatLng(30.621016, 104.063456);
         LatLng llB = new LatLng(30.621016, 104.064456);

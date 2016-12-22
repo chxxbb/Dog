@@ -16,4 +16,5 @@ public class MapData {
     public static LocationClient mLocClient;
     public static View view;
     public static String path;
+    public static String mCode = "mcode=77:27:1B:6B:44:71:FE:CB:78:27:F6:2E:F9:1B:23:AC:5C:2A:7E:DA;com.example.administrator.rilegou";
 }
