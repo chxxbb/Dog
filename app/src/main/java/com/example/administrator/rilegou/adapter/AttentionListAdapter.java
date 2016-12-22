@@ -18,7 +18,6 @@ public class AttentionListAdapter extends BaseAdapter {
     Context context;
     List<String> list;
 
-
     public AttentionListAdapter(Context context, List<String> list) {
         this.context = context;
         this.list = list;
