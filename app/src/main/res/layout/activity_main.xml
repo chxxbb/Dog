@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.MainActivity">
+
+
+    <LinearLayout
+        android:id="@+id/main_linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y1"
+            android:background="@color/linegray" />
+
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y95"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_home_find"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y10"
+                android:layout_weight="1"
+                android:background="@null"
+                android:button="@null"
+                android:drawableTop="@drawable/home_earth_isclick"
+                android:gravity="center"
+                android:text="发现"
+                android:textColor="@drawable/earth_text_color"
+                android:textSize="@dimen/y20" />
+
+            <RadioButton
+                android:id="@+id/rb_home_hotspot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y10"
+                android:layout_weight="1"
+                android:background="@null"
+                android:button="@null"
+                android:drawableTop="@drawable/home_guidepost_isclick"
+                android:gravity="center"
+                android:text="热点"
+                android:textColor="@drawable/earth_text_color"
+                android:textSize="@dimen/y20" />
+
+            <RadioButton
+                android:id="@+id/rb_home_mypage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y10"
+                android:layout_weight="1"
+                android:background="@null"
+                android:button="@null"
+                android:drawableTop="@drawable/home_my_line_isclick"
+                android:gravity="center"
+                android:text="我的"
+                android:textColor="@drawable/earth_text_color"
+                android:textSize="@dimen/y20" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/main_linearlayout" />
+
+</RelativeLayout>

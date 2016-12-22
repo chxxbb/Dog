@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mypagebackground"
+    android:orientation="vertical">
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x20"
+        android:layout_marginRight="@dimen/x20"
+        android:layout_marginTop="@dimen/y20"
+        app:cardBackgroundColor="@color/backgroundYellow"
+        app:cardElevation="@dimen/y6"
+        app:cardPreventCornerOverlap="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x30"
+                android:layout_marginTop="@dimen/y20"
+                android:includeFontPadding="false"
+                android:lineSpacingMultiplier="0.9"
+                android:text="个人成就"
+                android:textColor="@color/maPageTextColor"
+                android:textSize="@dimen/y25" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y45">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x30"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/x35"
+                        android:layout_height="@dimen/y30"
+                        android:src="@drawable/mypage_product_like" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/x22"
+                        android:text="2b"
+                        android:textColor="@color/maPageTextColor"
+                        android:textSize="@dimen/y30" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x30"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/x35"
+                        android:layout_height="@dimen/y30"
+                        android:src="@drawable/mypage_product_comment" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/x22"
+                        android:text="2b"
+                        android:textColor="@color/maPageTextColor"
+                        android:textSize="@dimen/y30" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/y48"
+                android:layout_marginTop="@dimen/y70">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x30"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/x35"
+                        android:layout_height="@dimen/y30"
+                        android:src="@drawable/mypage_product_aircraft" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/x22"
+                        android:text="2b"
+                        android:textColor="@color/maPageTextColor"
+                        android:textSize="@dimen/y30" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x30"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/x35"
+                        android:layout_height="@dimen/y30"
+                        android:src="@drawable/mypage_product_attention" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/x22"
+                        android:text="2b"
+                        android:textColor="@color/maPageTextColor"
+                        android:textSize="@dimen/y30" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x20"
+        android:layout_marginRight="@dimen/x20"
+        android:layout_marginTop="@dimen/y20"
+        app:cardBackgroundColor="@color/backgroundYellow"
+        app:cardElevation="@dimen/y6"
+        app:cardPreventCornerOverlap="false">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x30"
+                android:layout_marginTop="@dimen/y20"
+                android:includeFontPadding="false"
+                android:lineSpacingMultiplier="0.9"
+                android:text="居住地"
+                android:textColor="@color/maPageTextColor"
+                android:textSize="@dimen/y25" />
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/y82"
+                android:layout_marginTop="@dimen/y45"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="@dimen/x100"
+                    android:layout_height="@dimen/x100"
+                    android:layout_marginLeft="@dimen/x30"
+                    android:src="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x40"
+                    android:text="非洲-酋长"
+                    android:textColor="@color/maPageTextColor"
+                    android:textSize="@dimen/y30" />
+
+                <ImageView
+                    android:layout_width="@dimen/x25"
+                    android:layout_height="@dimen/y25"
+                    android:layout_marginLeft="@dimen/x25"
+                    android:src="@drawable/mypage_product_compile" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x20"
+        android:layout_marginRight="@dimen/x20"
+        android:layout_marginTop="@dimen/y20"
+        app:cardBackgroundColor="@color/backgroundYellow"
+        app:cardElevation="@dimen/y6"
+        app:cardPreventCornerOverlap="false">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x30"
+                android:layout_marginTop="@dimen/y20"
+                android:includeFontPadding="false"
+                android:lineSpacingMultiplier="0.9"
+                android:text="居住地"
+                android:textColor="@color/maPageTextColor"
+                android:textSize="@dimen/y25" />
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/y82"
+                android:layout_marginTop="@dimen/y45"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="@dimen/x100"
+                    android:layout_height="@dimen/x100"
+                    android:layout_marginLeft="@dimen/x30"
+                    android:src="@drawable/mypage_product_weibo" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x40"
+                    android:text="日了狗"
+                    android:textColor="@color/maPageTextColor"
+                    android:textSize="@dimen/y30" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y115" />
+
+</LinearLayout>

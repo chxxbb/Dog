@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y320"
+        android:background="#f6dc73">
+
+        <RelativeLayout
+            android:id="@+id/hotspot_listview_item_green_relativelayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y220"
+            android:layout_marginTop="@dimen/y40"
+            android:background="#a8c6a4"
+            android:elevation="@dimen/x5"
+            android:paddingBottom="@dimen/y10"
+            android:paddingRight="@dimen/x10"
+            android:paddingTop="@dimen/y10"
+            android:translationZ="@dimen/x3">
+
+            <TextView
+                android:id="@+id/hotspot_listview_item_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:text="12月12日"
+                android:textColor="#707070"
+                android:textSize="@dimen/y18" />
+
+            <TextView
+                android:id="@+id/hotspot_listview_item_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:text="正常"
+                android:textColor="#00ff00"
+                android:textSize="@dimen/y32" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/hotspot_listview_item_contentimage"
+            android:layout_width="@dimen/x280"
+            android:layout_height="@dimen/y250"
+            android:layout_alignBottom="@id/hotspot_listview_item_green_relativelayout"
+            android:layout_marginLeft="@dimen/x20"
+            android:elevation="@dimen/x5"
+            android:outlineProvider="bounds"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/test"
+            android:translationZ="@dimen/x5" />
+
+        <RelativeLayout
+            android:layout_width="@dimen/x75"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/hotspot_listview_item_contentimage"
+            android:layout_marginLeft="@dimen/x25"
+            android:layout_toRightOf="@id/hotspot_listview_item_contentimage"
+            android:elevation="@dimen/x5"
+            android:translationZ="@dimen/x5">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/hotspot_listview_item_userimage"
+                android:layout_width="@dimen/x75"
+                android:layout_height="@dimen/x75"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/fuck" />
+
+            <TextView
+                android:id="@+id/hotspot_listview_item_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/hotspot_listview_item_userimage"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/y10"
+                android:text="高圆圆"
+                android:textColor="#3c3c3c"
+                android:textSize="@dimen/y18" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/hotspot_listview_item_loc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/hotspot_listview_item_contentimage"
+            android:layout_marginBottom="@dimen/y10"
+            android:layout_marginLeft="@dimen/x25"
+            android:layout_toRightOf="@id/hotspot_listview_item_contentimage"
+            android:elevation="@dimen/x5"
+            android:text="成都市成华区银锣湾"
+            android:textColor="#707070"
+            android:textSize="@dimen/y18"
+            android:translationZ="@dimen/x5" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@id/hotspot_listview_item_green_relativelayout"
+            android:layout_alignTop="@id/hotspot_listview_item_green_relativelayout"
+            android:layout_toRightOf="@id/hotspot_listview_item_contentimage"
+            android:elevation="@dimen/x5"
+            android:translationZ="@dimen/x5">
+
+            <TextView
+                android:id="@+id/hotspot_listview_item_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="我就是个内容而已···"
+                android:textColor="#3c3c3c"
+                android:textSize="@dimen/y24" />
+
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/hotspot_listview_item_green_relativelayout"
+            android:layout_marginLeft="@dimen/x80"
+            android:layout_marginRight="@dimen/x80"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/hotspot_listview_item_love_image"
+                    android:layout_width="@dimen/x35"
+                    android:layout_height="@dimen/y32"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/nearby_heart" />
+
+                <TextView
+                    android:id="@+id/hotspot_listview_item_love_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/x5"
+                    android:layout_toRightOf="@id/hotspot_listview_item_love_image"
+                    android:includeFontPadding="false"
+                    android:lineSpacingMultiplier="0.9"
+                    android:text="73"
+                    android:textColor="#707070"
+                    android:textSize="@dimen/y24" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/hotspot_listview_item_comments_image"
+                    android:layout_width="@dimen/x38"
+                    android:layout_height="@dimen/y35"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/nearby_message" />
+
+                <TextView
+                    android:id="@+id/hotspot_listview_item_comments_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/x5"
+                    android:layout_toRightOf="@id/hotspot_listview_item_comments_image"
+                    android:includeFontPadding="false"
+                    android:lineSpacingMultiplier="0.9"
+                    android:text="9"
+                    android:textColor="#707070"
+                    android:textSize="@dimen/y24" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/hotspot_listview_item_share_image"
+                    android:layout_width="@dimen/x33"
+                    android:layout_height="@dimen/y30"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/nearby_paperplane" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/hotspot_listview_item_more_image"
+                    android:layout_width="@dimen/x35"
+                    android:layout_height="@dimen/y32"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/nearby_more" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

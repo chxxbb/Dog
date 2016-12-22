@@ -1,0 +1,93 @@
+[
+{
+"featureType": "land",
+"elementType": "geometry",
+"stylers": {
+"color": "#ffffff"
+}
+},
+{
+"featureType": "water",
+"elementType": "geometry",
+"stylers":{
+"color": "#d0ddee"
+}
+},
+{
+"featureType": "manmade",
+"elementType": "geometry",
+"stylers":{
+"color": "#f1f1e5"
+}
+},
+{
+"featureType": "green",
+"elementType": "geometry",
+"stylers":{
+"color": "#83c578"
+}
+},
+{
+"featureType": "boundary",
+"elementType": "geometry.fill",
+"stylers":{
+"color": "#e6e6e6"
+}
+},
+{
+"featureType": "boundary",
+"elementType": "geometry.stroke",
+"stylers":{
+"color": "#303030"
+}
+},
+
+{
+"featureType": "highway",
+"elementType": "geometry.fill",
+"stylers":{
+"color": "#fff5dd"
+}
+},
+
+{
+"featureType": "highway",
+"elementType": "geometry.stroke",
+"stylers":{
+"color": "#000000"
+}
+},
+
+{
+"featureType": "arterial",
+"elementType": "geometry.stroke",
+"stylers":{
+"color": "#3c3c3c"
+}
+},
+
+{
+"featureType": "arterial",
+"elementType": "geometry.fill",
+"stylers":{
+"color": "#ffffff"
+}
+},
+
+{
+"featureType": "local",
+"elementType": "geometry.fill",
+"stylers":{
+"color": "#ffffff"
+}
+},
+
+{
+"featureType": "local",
+"elementType": "geometry.stroke",
+"stylers":{
+"color": "#7c7c7c"
+}
+}
+
+]

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#ffffff</color>
+    <color name="topgreen">#a8c6a4</color>
+    <color name="backgroundYellow">#fff2bf</color>
+    <color name="black">#000000</color>
+    <color name="linegray">#e0e0e0</color>
+    <color name="textyollow">#ffb84e</color>
+    <color name="textgray">#707070</color>
+    <color name="textgray1">#a0a0a0</color>
+    <color name="textred">#ff0000</color>
+    <color name="textblue">#5bb3e2</color>
+    <color name="commetgray">#666666</color>
+    <color name="mypagegreen">#a8c6a4</color>
+    <color name="mypagebackground">#f3d972</color>
+    <color name="mypagetext">#816700</color>
+    <color name="maPageTextColor">#816700</color>
+    <color name="attentionBackground">#f6dc73</color>
+    <color name="attentionTextColor">#556353</color>
+
+</resources>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/mypagegreen"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="@dimen/x150"
+                    android:layout_height="@dimen/y150"
+                    android:layout_marginBottom="@dimen/y20"
+                    android:layout_marginTop="@dimen/y60"
+                    android:src="@drawable/fuck"
+                    app:civ_border_color="@color/white"
+                    app:civ_border_width="@dimen/x2" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/ll_myPage_left_view"
+                    android:layout_width="@dimen/x290"
+                    android:layout_height="@dimen/y150"
+                    android:background="@drawable/mypage_left_onclick_background"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/x50"
+                        android:text="我的动态"
+                        android:textColor="@color/mypagetext"
+                        android:textSize="@dimen/y25" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="李狗蛋"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/y25" />
+
+                    <ImageView
+                        android:layout_width="@dimen/x28"
+                        android:layout_height="@dimen/y28"
+                        android:layout_marginBottom="@dimen/y15"
+                        android:layout_marginTop="@dimen/y12"
+                        android:src="@drawable/mypage_gender_woman" />
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="@dimen/x100"
+                        android:layout_height="@dimen/y45"
+                        app:cardBackgroundColor="#00f6ff"
+                        app:cardCornerRadius="@dimen/x10"
+                        app:cardElevation="@dimen/y5"
+                        app:cardPreventCornerOverlap="false">
+
+                        <RelativeLayout
+                            android:id="@+id/mypage_attention_relativelayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text="关注"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/y25" />
+                        </RelativeLayout>
+
+                    </android.support.v7.widget.CardView>
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_myPage_right_view"
+                    android:layout_width="@dimen/x290"
+                    android:layout_height="@dimen/y150"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/mypage_right_unclick_background"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/x50"
+                        android:text="详细信息"
+                        android:textColor="@color/mypagetext"
+                        android:textSize="@dimen/y25" />
+
+                </RelativeLayout>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+
+</ScrollView>

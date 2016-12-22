@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/attentionBackground"
+    android:orientation="vertical"
+    tools:context="com.example.administrator.rilegou.activity.AttentionActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y85"
+        android:background="@color/mypagegreen">
+
+        <RelativeLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="@dimen/x30"
+                android:layout_height="@dimen/y48"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/x50"
+                android:src="@drawable/consulting_left_arrows" />
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/rl_attention"
+                android:layout_width="@dimen/x75"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="关注"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/y32" />
+
+                <View
+                    android:id="@+id/view1"
+                    android:layout_width="@dimen/x75"
+                    android:layout_height="@dimen/y3"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/white" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="@dimen/x30"
+                android:layout_height="match_parent"/>
+
+            <RelativeLayout
+                android:id="@+id/rl_fans"
+                android:layout_width="@dimen/x75"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="粉丝"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/y32" />
+
+                <View
+                    android:id="@+id/view2"
+                    android:visibility="gone"
+                    android:layout_width="@dimen/x75"
+                    android:layout_height="@dimen/y3"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/white" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_attention"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+</LinearLayout>

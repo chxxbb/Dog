@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/list_relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y710"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:id="@+id/hotspot_list_top_relativelayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y50"
+            android:layout_alignParentTop="true"
+            android:background="#ffffff">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y1"
+                android:background="#c0c0c0" />
+
+            <View
+                android:layout_width="@dimen/x70"
+                android:layout_height="@dimen/y10"
+                android:layout_centerInParent="true"
+                android:background="@drawable/hotspot_list_top_view" />
+
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/hotspot_list_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/hotspot_list_top_relativelayout"
+            android:background="#000000"
+            android:divider="#f6f6f6"
+            android:dividerHeight="@dimen/y20" />
+
+    </RelativeLayout>
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/bmapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/list_relativelayout"
+        android:clickable="true" />
+
+    <RelativeLayout
+        android:id="@+id/hotspot_location_relativelayout"
+        android:layout_width="@dimen/x70"
+        android:layout_height="@dimen/x70"
+        android:layout_alignBottom="@id/bmapView"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="@dimen/x80"
+        android:layout_marginLeft="@dimen/x10"
+        android:background="@drawable/hotspot_fragment_loc_button_selector"
+        android:elevation="@dimen/x5">
+
+        <ImageView
+            android:layout_width="@dimen/x40"
+            android:layout_height="@dimen/x40"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/hotspot_location_imageview" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/hotspot_focus_relativelayout"
+        android:layout_width="@dimen/x70"
+        android:layout_height="@dimen/x70"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="@dimen/x10"
+        android:layout_marginTop="@dimen/y160"
+        android:background="@drawable/hotspot_fragment_loc_button_selector"
+        android:elevation="@dimen/x5">
+
+        <ImageView
+            android:id="@+id/hotspot_focus_image"
+            android:layout_width="@dimen/x45"
+            android:layout_height="@dimen/x45"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/y5"
+            android:src="@mipmap/hotspot_focus_image" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/y5"
+            android:text="我关注的"
+            android:textColor="#707070"
+            android:textSize="@dimen/x14" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/hotspot_love_relativelayout"
+        android:layout_width="@dimen/x70"
+        android:layout_height="@dimen/x70"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/hotspot_focus_relativelayout"
+        android:layout_marginRight="@dimen/x10"
+        android:layout_marginTop="@dimen/y30"
+        android:background="@drawable/hotspot_fragment_loc_button_selector"
+        android:elevation="@dimen/x5">
+
+        <ImageView
+            android:id="@+id/hotspot_love_image"
+            android:layout_width="@dimen/x40"
+            android:layout_height="@dimen/x40"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/y5"
+            android:src="@mipmap/hotspot_love_image" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/y5"
+            android:text="我点赞的"
+            android:textColor="#707070"
+            android:textSize="@dimen/x14" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
