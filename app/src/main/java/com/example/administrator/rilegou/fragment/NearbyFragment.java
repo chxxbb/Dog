@@ -96,10 +96,8 @@ public class NearbyFragment extends Fragment {
 
 
     private void init() {
-
         //准备数据
         startLoc();
-
 
         banner.setBannerStyle(BannerConfig.NOT_INDICATOR);
 
@@ -119,7 +117,6 @@ public class NearbyFragment extends Fragment {
 
     private void startLoc() {
         // 定位初始化
-        this.mLocClient = MapData.mLocClient;
         mLocClient = new LocationClient(getActivity());
         mLocClient.registerLocationListener(myListener);
         LocationClientOption option = new LocationClientOption();
@@ -160,7 +157,7 @@ public class NearbyFragment extends Fragment {
                             Root root = gson.fromJson(response, Root.class);
 
                             if (root.getStatus() == 0) {
-                                System.out.println("检索反馈正常");
+                                System.out.println("附近页面检索反馈正常");
                                 for (Contents contents : root.getContents()) {
                                     String imageStr = contents.getImage().getBig();
                                     data.add(imageStr);
@@ -168,13 +165,12 @@ public class NearbyFragment extends Fragment {
                                 adapter = new NearbyListViewAdapter(getContext(), data);
                                 lv_nearby.setAdapter(adapter);
                                 adapter.notifyDataSetChanged();
+                                mLocClient.stop();
                             } else {
                                 Toast.makeText(getActivity(), "" + response, Toast.LENGTH_LONG).show();
                             }
                         }
                     });
-
-            System.out.println("" + location.getAddrStr());
 
         }
 

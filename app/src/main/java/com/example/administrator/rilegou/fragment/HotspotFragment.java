@@ -92,23 +92,21 @@ public class HotspotFragment extends Fragment {
 
         view = MapData.view;
         this.mBaiduMap = MapData.mBaiduMap;
-        this.mLocClient = MapData.mLocClient;
         this.mMapView = MapData.mMapView;
 
         mCurrentMode = MyLocationConfiguration.LocationMode.NORMAL;
 
-        //开始定位、定位焦点到当前位置
-        startLoc();
-
-        //设置点聚合
+        //设置点聚合的类定义
         Point_aggregation();
+
+        //开始定位、定位焦点到当前位置、添加Mark点数据
+        startLoc();
 
         //获取按钮和设置布局的监听器
         init();
 
         //传送地图数据到MainActivity,以便销毁
         MapData.mBaiduMap = this.mBaiduMap;
-        MapData.mLocClient = this.mLocClient;
         MapData.mMapView = this.mMapView;
 
         return view;
@@ -187,7 +185,6 @@ public class HotspotFragment extends Fragment {
         // 定义点聚合管理类ClusterManager
         mClusterManager = new ClusterManager<MyItem>(getActivity(), mBaiduMap);
 
-
         // 设置地图监听，当地图状态发生改变时，进行点聚合运算
         mBaiduMap.setOnMapStatusChangeListener(mClusterManager);
 
@@ -243,7 +240,7 @@ public class HotspotFragment extends Fragment {
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true); // 打开gps
         option.setCoorType("bd09ll"); // 设置坐标类型
-        option.setScanSpan(5000);
+        option.setScanSpan(10000);
         mLocClient.setLocOption(option);
         mLocClient.start();
     }
@@ -323,7 +320,7 @@ public class HotspotFragment extends Fragment {
                 Root root = gson.fromJson(response, Root.class);
 
                 if (root.getStatus() == 0) {
-                    System.out.println("检索反馈正常");
+                    System.out.println("热点页面检索反馈正常");
                     //添加Mark点
                     for (Contents contents : root.getContents()) {
                         items.add(addMarkersData(contents, items));
