@@ -29,6 +29,7 @@ import com.example.administrator.rilegou.R;
 import com.example.administrator.rilegou.adapter.HotspotListViewAdapter;
 import com.example.administrator.rilegou.data.AdapterItemList;
 import com.example.administrator.rilegou.data.MapData;
+import com.example.administrator.rilegou.data.Map_Lbs_Json_Data.Contents;
 import com.example.administrator.rilegou.data.Map_Lbs_Json_Data.Root;
 import com.example.administrator.rilegou.data.MyItem;
 import com.google.gson.Gson;
@@ -306,38 +307,32 @@ public class HotspotFragment extends Fragment {
             @Override
             public void onResponse(String response, int id) {
                 Gson gson = new Gson();
+                List<MyItem> items = new ArrayList<MyItem>();
                 System.out.println(response);
                 Root root = gson.fromJson(response, Root.class);
+
                 if (root.getStatus() == 0) {
                     System.out.println("检索反馈正常");
-                    System.out.println("经度 : " + root.getContents().get(0).getLocation().get(0));
+                    //添加Mark点
+                    for (Contents contents : root.getContents()) {
+                        items.add(addMarkersData(contents, items));
+                    }
+                    mClusterManager.addItems(items);
                 } else {
                     Toast.makeText(getActivity(), "" + response, Toast.LENGTH_LONG).show();
                 }
             }
+
+            private MyItem addMarkersData(Contents contents, List<MyItem> items) {
+                LatLng llA = new LatLng(contents.getLocation().get(1), contents.getLocation().get(0));  //设置经纬度(纬度1,经度0)
+                return new MyItem(llA)
+                        .setmUserName("二营长")
+                        .setmTime("9月17日")
+                        .setmContent("你他娘的意大利炮呢···")
+                        .setmLoc(contents.getTitle())               //设置地名
+                        .setmState(contents.getState());            //设置目标状态 正常 危险 伤病
+            }
         });
-
-
-        // 添加Marker点
-        LatLng llA = new LatLng(30.621016, 104.063456);
-        LatLng llB = new LatLng(30.621016, 104.064456);
-        LatLng llC = new LatLng(30.621016, 104.065456);
-        LatLng llD = new LatLng(30.621016, 104.066456);
-        LatLng llE = new LatLng(30.621016, 104.067456);
-        LatLng llF = new LatLng(30.621016, 104.068456);
-        LatLng llG = new LatLng(30.621016, 104.069456);
-
-        List<MyItem> items = new ArrayList<MyItem>();
-
-        items.add(new MyItem(llA).setmUserName("二营长").setmTime("9月17日").setmContent("你他娘的意大利炮呢···").setmLoc("人民南路46号").setmState(0));
-        items.add(new MyItem(llB).setmUserName("大营长").setmTime("9月10日").setmContent("你他娘的德国山炮呢···").setmLoc("人民南路41号").setmState(1));
-        items.add(new MyItem(llC).setmUserName("三营长").setmTime("9月13日").setmContent("你他娘的法国巨炮呢···").setmLoc("人民南路43号").setmState(2));
-        items.add(new MyItem(llD).setmUserName("五营长").setmTime("9月15日").setmContent("你他娘的中国二炮呢···").setmLoc("人民南路45号").setmState(0));
-        items.add(new MyItem(llE).setmUserName("六营长").setmTime("9月16日").setmContent("你他娘的人体大炮呢···").setmLoc("人民南路42号").setmState(1));
-        items.add(new MyItem(llF).setmUserName("七营长").setmTime("9月12日").setmContent("你他娘的超电磁炮呢···").setmLoc("人民南路47号").setmState(2));
-        items.add(new MyItem(llG).setmUserName("八营长").setmTime("9月18日").setmContent("你他娘的正阳子炮呢···").setmLoc("人民南路48号").setmState(1));
-
-        mClusterManager.addItems(items);
 
     }
 

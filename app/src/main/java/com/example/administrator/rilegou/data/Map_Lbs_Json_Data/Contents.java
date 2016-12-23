@@ -23,7 +23,7 @@ public class Contents {
 
     private String city;
 
-    private List location;
+    private List<Double> location;
 
     private String address;
 
@@ -119,11 +119,11 @@ public class Contents {
         return this.city;
     }
 
-    public void setLocation(List location) {
+    public void setLocation(List<Double> location) {
         this.location = location;
     }
 
-    public List getLocation() {
+    public List<Double> getLocation() {
         return this.location;
     }
 
