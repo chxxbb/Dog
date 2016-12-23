@@ -64,6 +64,7 @@
                         android:src="@drawable/home_message_location" />
 
                     <TextView
+                        android:id="@+id/nearby_listv_item_content_Address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/x10"

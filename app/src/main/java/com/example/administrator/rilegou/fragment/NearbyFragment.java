@@ -20,6 +20,7 @@ import com.baidu.location.LocationClientOption;
 import com.example.administrator.rilegou.data.MapData;
 import com.example.administrator.rilegou.data.Map_Lbs_Json_Data.Contents;
 import com.example.administrator.rilegou.data.Map_Lbs_Json_Data.Root;
+import com.example.administrator.rilegou.data.MyMessageItem;
 import com.example.administrator.rilegou.utils.BannerImageLoader;
 import com.example.administrator.rilegou.view.ListViewForScrollView;
 import com.example.administrator.rilegou.adapter.NearbyListViewAdapter;
@@ -44,7 +45,7 @@ public class NearbyFragment extends Fragment {
     List<String> bannerList = new ArrayList<>();
     ListViewForScrollView lv_nearby;
     NearbyListViewAdapter adapter;
-    List<String> data = new ArrayList<>();
+    List<MyMessageItem> data = new ArrayList<>();
     ScrollView scrollView;
 
     //定位服务
@@ -159,8 +160,14 @@ public class NearbyFragment extends Fragment {
                             if (root.getStatus() == 0) {
                                 System.out.println("附近页面检索反馈正常");
                                 for (Contents contents : root.getContents()) {
-                                    String imageStr = contents.getImage().getBig();
-                                    data.add(imageStr);
+                                    MyMessageItem myMessageItem = new MyMessageItem();
+
+                                    myMessageItem.setContentImage(contents.getImage().getBig());
+                                    myMessageItem.setState(contents.getState());
+                                    myMessageItem.setAddress(contents.getTitle());
+
+                                    data.add(myMessageItem);
+
                                 }
                                 adapter = new NearbyListViewAdapter(getContext(), data);
                                 lv_nearby.setAdapter(adapter);

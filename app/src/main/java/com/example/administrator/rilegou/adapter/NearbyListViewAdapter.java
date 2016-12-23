@@ -18,6 +18,7 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.example.administrator.rilegou.R;
 import com.example.administrator.rilegou.data.MapData;
+import com.example.administrator.rilegou.data.MyMessageItem;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -28,11 +29,11 @@ import java.util.List;
  */
 public class NearbyListViewAdapter extends BaseAdapter {
     Context context;
-    List<String> list;
+    List<MyMessageItem> list;
 
     NearbyUserIconAdapter adapter;
 
-    public NearbyListViewAdapter(Context context, List<String> list) {
+    public NearbyListViewAdapter(Context context, List<MyMessageItem> list) {
         this.context = context;
         this.list = list;
     }
@@ -44,7 +45,7 @@ public class NearbyListViewAdapter extends BaseAdapter {
     }
 
     @Override
-    public String getItem(int position) {
+    public MyMessageItem getItem(int position) {
         return list.get(position);
     }
 
@@ -66,6 +67,8 @@ public class NearbyListViewAdapter extends BaseAdapter {
 
             viewHolder.nearby_listv_item_content_image = (ImageView) convertView.findViewById(R.id.nearby_listv_item_content_image);
 
+            viewHolder.nearby_listv_item_content_Address = (TextView) convertView.findViewById(R.id.nearby_listv_item_content_Address);
+
 
             viewHolder.recyclerView_user_icon = (RecyclerView) convertView.findViewById(R.id.recyclerView_user_icon);
             viewHolder.recyclerView_user_icon.setHasFixedSize(true);
@@ -77,10 +80,29 @@ public class NearbyListViewAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        ImageLoader.getInstance().displayImage(list.get(position), viewHolder.nearby_listv_item_content_image);
+        MyMessageItem myMessageItem = list.get(position);
+
+        ImageLoader.getInstance().displayImage(myMessageItem.getContentImage(), viewHolder.nearby_listv_item_content_image);
+
+        viewHolder.nearby_listv_item_content_Address.setText(myMessageItem.getAddress());
+
+        switch (myMessageItem.getState()) {
+            case 0:     //正常
+                viewHolder.tv1.setText("正常");
+                viewHolder.tv1.setTextColor(0xFF00FF00);
+                break;
+            case 1:     //危险
+                viewHolder.tv1.setText("危险");
+                viewHolder.tv1.setTextColor(0xFFFF0000);
+                break;
+            case 2:     //伤病
+                viewHolder.tv1.setText("伤病");
+                viewHolder.tv1.setTextColor(0xFFFF9900);
+                break;
+        }
 
         //设置顶部消息分类数据
-        viewHolder.tv.setText("日了狗");
+        viewHolder.tv.setText("附近消息");
 
 
         //设置点赞数据
@@ -100,6 +122,7 @@ public class NearbyListViewAdapter extends BaseAdapter {
         RecyclerView recyclerView_user_icon;
         TextView tv1;
         ImageView nearby_listv_item_content_image;
+        TextView nearby_listv_item_content_Address;
     }
 
 
