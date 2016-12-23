@@ -108,6 +108,7 @@ public class HotspotFragment extends Fragment {
         //传送地图数据到MainActivity,以便销毁
         MapData.mBaiduMap = this.mBaiduMap;
         MapData.mMapView = this.mMapView;
+        MapData.mLocClient = this.mLocClient;
 
         return view;
     }

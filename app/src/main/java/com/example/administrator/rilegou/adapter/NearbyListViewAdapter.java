@@ -77,7 +77,7 @@ public class NearbyListViewAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        ImageLoader.getInstance().displayImage(list.get(0), viewHolder.nearby_listv_item_content_image);
+        ImageLoader.getInstance().displayImage(list.get(position), viewHolder.nearby_listv_item_content_image);
 
         //设置顶部消息分类数据
         viewHolder.tv.setText("日了狗");
