@@ -11,16 +11,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.example.administrator.rilegou.data.MapData;
+import com.example.administrator.rilegou.data.Map_Lbs_Json_Data.Contents;
+import com.example.administrator.rilegou.data.Map_Lbs_Json_Data.Root;
 import com.example.administrator.rilegou.utils.BannerImageLoader;
 import com.example.administrator.rilegou.view.ListViewForScrollView;
 import com.example.administrator.rilegou.adapter.NearbyListViewAdapter;
 import com.example.administrator.rilegou.R;
+import com.google.gson.Gson;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
 
 /**
  * Created by Administrator on 2016/12/8 0008.
@@ -33,6 +46,10 @@ public class NearbyFragment extends Fragment {
     NearbyListViewAdapter adapter;
     List<String> data = new ArrayList<>();
     ScrollView scrollView;
+
+    //定位服务
+    LocationClient mLocClient;
+    public MyLocationListenner myListener = new MyLocationListenner();
 
 
     @Nullable
@@ -69,16 +86,6 @@ public class NearbyFragment extends Fragment {
         scrollView.smoothScrollTo(1, 1);
     }
 
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            lv_nearby.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-        }
-    };
-
-
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
@@ -89,18 +96,10 @@ public class NearbyFragment extends Fragment {
 
 
     private void init() {
-        for (int i = 0; i < 3; i++) {
-            data.add("1");
-        }
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                adapter = new NearbyListViewAdapter(getContext(), data);
+        //准备数据
+        startLoc();
 
-                handler.sendEmptyMessage(0);
-            }
-        }).start();
 
         banner.setBannerStyle(BannerConfig.NOT_INDICATOR);
 
@@ -117,4 +116,71 @@ public class NearbyFragment extends Fragment {
         //banner设置方法全部调用完毕时最后调用
         banner.start();
     }
+
+    private void startLoc() {
+        // 定位初始化
+        this.mLocClient = MapData.mLocClient;
+        mLocClient = new LocationClient(getActivity());
+        mLocClient.registerLocationListener(myListener);
+        LocationClientOption option = new LocationClientOption();
+        option.setOpenGps(true); // 打开gps
+        option.setCoorType("bd09ll"); // 设置坐标类型
+        option.setIsNeedAddress(true);
+        mLocClient.setLocOption(option);
+        mLocClient.start();
+    }
+
+    public class MyLocationListenner implements BDLocationListener {
+
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            // map view 销毁后不在处理新接收的位置
+            if (location == null) {
+                return;
+            }
+
+            //基于定位位置进行云检索,检索周边的帖子数据
+            OkHttpUtils
+                    .get()
+                    .url("http://api.map.baidu.com/geosearch/v3/nearby" + "?" + MapData.mCode)
+                    .addParams("ak", "6lKaHhn3GieVEaTZFCaEC3XrFdOFbHMX")
+                    .addParams("geotable_id", "160652")
+                    .addParams("location", location.getLongitude() + "," + location.getLatitude())
+                    .addParams("radius", "1000")
+                    .build()
+                    .execute(new StringCallback() {
+                        @Override
+                        public void onError(Call call, Exception e, int id) {
+                            Toast.makeText(getActivity(), "网络连接失败", Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onResponse(String response, int id) {
+                            Gson gson = new Gson();
+                            Root root = gson.fromJson(response, Root.class);
+
+                            if (root.getStatus() == 0) {
+                                System.out.println("检索反馈正常");
+                                for (Contents contents : root.getContents()) {
+                                    String imageStr = contents.getImage().getBig();
+                                    data.add(imageStr);
+                                }
+                                adapter = new NearbyListViewAdapter(getContext(), data);
+                                lv_nearby.setAdapter(adapter);
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                Toast.makeText(getActivity(), "" + response, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+
+            System.out.println("" + location.getAddrStr());
+
+        }
+
+
+        public void onReceivePoi(BDLocation poiLocation) {
+        }
+    }
+
 }

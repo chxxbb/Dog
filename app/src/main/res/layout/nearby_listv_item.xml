@@ -107,11 +107,11 @@
         </RelativeLayout>
 
         <ImageView
-
+            android:id="@+id/nearby_listv_item_content_image"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y600"
             android:layout_marginTop="@dimen/y30"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:src="@drawable/daxue" />
 
 

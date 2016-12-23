@@ -319,6 +319,7 @@ public class HotspotFragment extends Fragment {
             public void onResponse(String response, int id) {
                 Gson gson = new Gson();
                 List<MyItem> items = new ArrayList<MyItem>();
+
                 Root root = gson.fromJson(response, Root.class);
 
                 if (root.getStatus() == 0) {
@@ -329,7 +330,6 @@ public class HotspotFragment extends Fragment {
                     }
                     mClusterManager.clearItems();
                     mClusterManager.addItems(items);
-                    items = null;
                 } else {
                     Toast.makeText(getActivity(), "" + response, Toast.LENGTH_LONG).show();
                 }

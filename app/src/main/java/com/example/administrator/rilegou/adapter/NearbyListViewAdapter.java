@@ -8,10 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.example.administrator.rilegou.R;
+import com.example.administrator.rilegou.data.MapData;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,10 +63,12 @@ public class NearbyListViewAdapter extends BaseAdapter {
 
             viewHolder.tv1 = (TextView) convertView.findViewById(R.id.tv1);
             viewHolder.tv = (TextView) convertView.findViewById(R.id.tv);
+
+            viewHolder.nearby_listv_item_content_image = (ImageView) convertView.findViewById(R.id.nearby_listv_item_content_image);
+
+
             viewHolder.recyclerView_user_icon = (RecyclerView) convertView.findViewById(R.id.recyclerView_user_icon);
-
             viewHolder.recyclerView_user_icon.setHasFixedSize(true);
-
             viewHolder.recyclerView_user_icon.setLayoutManager(new StaggeredGridLayoutManager(12, StaggeredGridLayoutManager.VERTICAL));
 
             convertView.setTag(viewHolder);
@@ -68,19 +77,19 @@ public class NearbyListViewAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        ImageLoader.getInstance().displayImage(list.get(0), viewHolder.nearby_listv_item_content_image);
+
+        //设置顶部消息分类数据
         viewHolder.tv.setText("日了狗");
 
 
+        //设置点赞数据
         List<String> data = new ArrayList<>();
-
         for (int i = 0; i < 5; i++) {
             data.add("11");
         }
-
         adapter = new NearbyUserIconAdapter(context, data);
-
         viewHolder.recyclerView_user_icon.setAdapter(adapter);
-
         adapter.notifyDataSetChanged();
 
         return convertView;
@@ -90,6 +99,8 @@ public class NearbyListViewAdapter extends BaseAdapter {
         TextView tv;
         RecyclerView recyclerView_user_icon;
         TextView tv1;
-
+        ImageView nearby_listv_item_content_image;
     }
+
+
 }

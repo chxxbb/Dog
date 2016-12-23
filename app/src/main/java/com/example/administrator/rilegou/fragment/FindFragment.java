@@ -42,18 +42,12 @@ public class FindFragment extends Fragment {
 
     RelativeLayout rl_hot, rl_nearby, rl_newest;
 
-    //定位服务
-    ImageView fragment_find_loc;
-    LocationClient mLocClient;
-    public MyLocationListenner myListener = new MyLocationListenner();
-
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_find, null);
 
-        this.mLocClient = MapData.mLocClient;
 
         findView();
 
@@ -76,8 +70,6 @@ public class FindFragment extends Fragment {
 
         rl_newest = (RelativeLayout) view.findViewById(R.id.rl_newest);
 
-        fragment_find_loc = (ImageView) view.findViewById(R.id.fragment_find_loc);
-
         viewPager.addOnPageChangeListener(viewPagerListener);
 
         rl_hot.setOnClickListener(listener);
@@ -86,7 +78,6 @@ public class FindFragment extends Fragment {
 
         rl_newest.setOnClickListener(listener);
 
-        fragment_find_loc.setOnClickListener(listener);
     }
 
 
@@ -102,9 +93,6 @@ public class FindFragment extends Fragment {
                     break;
                 case R.id.rl_newest:
                     viewPager.setCurrentItem(2, true);
-                    break;
-                case R.id.fragment_find_loc:
-                    startLoc();
                     break;
             }
         }
@@ -156,34 +144,5 @@ public class FindFragment extends Fragment {
         }
     };
 
-    private void startLoc() {
-        // 定位初始化
-        mLocClient = new LocationClient(getActivity());
-        mLocClient.registerLocationListener(myListener);
-        LocationClientOption option = new LocationClientOption();
-        option.setOpenGps(true); // 打开gps
-        option.setCoorType("bd09ll"); // 设置坐标类型
-        option.setScanSpan(1000);
-        option.setIsNeedAddress(true);
-        mLocClient.setLocOption(option);
-        mLocClient.start();
-    }
-
-    public class MyLocationListenner implements BDLocationListener {
-
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-            // map view 销毁后不在处理新接收的位置
-            if (location == null) {
-                return;
-            }
-
-            System.out.println("" + location.getAddrStr());
-
-        }
-
-        public void onReceivePoi(BDLocation poiLocation) {
-        }
-    }
 
 }
