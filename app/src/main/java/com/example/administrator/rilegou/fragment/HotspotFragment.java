@@ -75,6 +75,7 @@ public class HotspotFragment extends Fragment {
     public MyLocationListenner myListener = new MyLocationListenner();
     private MyLocationConfiguration.LocationMode mCurrentMode;
     boolean isFirstLoc = true; // 是否首次定位
+    Double latitude, longitude;
 
     //点聚合相关
     private ClusterManager<MyItem> mClusterManager;
@@ -185,8 +186,7 @@ public class HotspotFragment extends Fragment {
     private void Point_aggregation() {
         // 定义点聚合管理类ClusterManager
         mClusterManager = new ClusterManager<MyItem>(getActivity(), mBaiduMap);
-        // 添加Marker点
-        addMarkers();
+
 
         // 设置地图监听，当地图状态发生改变时，进行点聚合运算
         mBaiduMap.setOnMapStatusChangeListener(mClusterManager);
@@ -243,7 +243,7 @@ public class HotspotFragment extends Fragment {
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true); // 打开gps
         option.setCoorType("bd09ll"); // 设置坐标类型
-        option.setScanSpan(1000);
+        option.setScanSpan(5000);
         mLocClient.setLocOption(option);
         mLocClient.start();
     }
@@ -279,6 +279,17 @@ public class HotspotFragment extends Fragment {
                 ms = builder.build();
                 mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
             }
+            if (latitude != null && longitude != null) {
+                if (Math.abs(latitude - location.getLatitude()) > 0.005 || Math.abs(longitude - location.getLongitude()) > 0.005) {
+                    latitude = location.getLatitude();
+                    longitude = location.getLongitude();
+                    addMarkers(location);
+                }
+            } else {
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+                addMarkers(location);
+            }
 
         }
 
@@ -289,14 +300,14 @@ public class HotspotFragment extends Fragment {
     /**
      * 向地图添加Marker点
      */
-    public void addMarkers() {
+    public void addMarkers(BDLocation location) {
 
         OkHttpUtils
                 .get()
                 .url("http://api.map.baidu.com/geosearch/v3/nearby" + "?" + MapData.mCode)
                 .addParams("ak", "6lKaHhn3GieVEaTZFCaEC3XrFdOFbHMX")
                 .addParams("geotable_id", "160652")
-                .addParams("location", "104.069145" + "," + "30.619118")
+                .addParams("location", location.getLongitude() + "," + location.getLatitude())
                 .addParams("radius", "1000")
                 .build().execute(new StringCallback() {
             @Override
@@ -308,7 +319,6 @@ public class HotspotFragment extends Fragment {
             public void onResponse(String response, int id) {
                 Gson gson = new Gson();
                 List<MyItem> items = new ArrayList<MyItem>();
-                System.out.println(response);
                 Root root = gson.fromJson(response, Root.class);
 
                 if (root.getStatus() == 0) {
@@ -317,7 +327,9 @@ public class HotspotFragment extends Fragment {
                     for (Contents contents : root.getContents()) {
                         items.add(addMarkersData(contents, items));
                     }
+                    mClusterManager.clearItems();
                     mClusterManager.addItems(items);
+                    items = null;
                 } else {
                     Toast.makeText(getActivity(), "" + response, Toast.LENGTH_LONG).show();
                 }
