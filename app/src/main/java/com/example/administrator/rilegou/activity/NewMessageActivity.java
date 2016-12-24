@@ -14,12 +14,22 @@ import com.baidu.location.LocationClientOption;
 import com.example.administrator.rilegou.R;
 import com.example.administrator.rilegou.data.MapData;
 import com.example.administrator.rilegou.data.Map_Lbs_ReturnJson_Data;
+import com.example.administrator.rilegou.data.QiNiuData.QiNiu_Json;
 import com.example.administrator.rilegou.fragment.FindFragment;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.qiniu.android.common.Zone;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.Configuration;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
+import com.qiniu.android.storage.UploadOptions;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.json.JSONObject;
+
+import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -39,11 +49,35 @@ public class NewMessageActivity extends Activity {
     LocationClient mLocClient;
     public MyLocationListenner myListener = new MyLocationListenner();
 
+
+    //七牛云服务相关
+    //指定upToken, 强烈建议从服务端提供get请求获取, 这里为了掩饰直接指定key
+    public static String uptoken = "2mfij5tP6_1B0hlfZpFZVsP5GrbwT-2_CdVuM77o:rcrplEimjryaO236Zg936cGJqg0=:eyJzY29wZSI6Im15ZG9nIiwiZGVhZGxpbmUiOjE0ODI2MDI1MjR9";
+    private UploadManager uploadManager;
+    BDLocation location1;
+
+    String imageUrl;
+
+    //时间相关
+    int month;
+    int day;
+    int hour;
+    int min;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_message_activity);
 
+        initTime();
+
+        findID();
+
+        startLoc();
+
+    }
+
+    private void findID() {
         imageStr = getIntent().getExtras().getString("image");
 
         new_message_imageview = (ImageView) findViewById(R.id.new_message_imageview);
@@ -53,12 +87,82 @@ public class NewMessageActivity extends Activity {
         new_message_send_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startLoc();
+                qiniuUp();
             }
         });
+    }
 
-        System.out.println(imageStr);
+    private void initTime() {
+        GregorianCalendar calendar = new GregorianCalendar();
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        hour = calendar.get(Calendar.HOUR_OF_DAY);
+        min = calendar.get(Calendar.MINUTE);
+    }
 
+    private void qiniuUp() {
+        Configuration config = new Configuration.Builder().zone(Zone.httpAutoZone).build();
+        //new一个uploadManager类
+        uploadManager = new UploadManager(config);
+
+        File file = new File(imageStr);
+        //设置上传后文件的key
+        String upkey = null;
+        uploadManager.put(file, upkey, uptoken, new UpCompletionHandler() {
+            public void complete(String key, ResponseInfo rinfo, JSONObject response) {
+
+                if (rinfo.isOK()) {
+                    //显示上传后文件的url
+                    Gson gson = new Gson();
+                    QiNiu_Json Urlkey = gson.fromJson("" + response, QiNiu_Json.class);
+                    imageUrl = "http://oip7xw0lg.bkt.clouddn.com/" + Urlkey.getKey();
+                    System.out.println("url" + imageUrl);
+
+                    //开始上传
+                    OkHttpUtils
+                            .post()
+                            .url(MapData.ServiceUrl)
+                            .addParams("ak", MapData.ServiceAk)
+                            .addParams("latitude", "" + location1.getLatitude())
+                            .addParams("longitude", "" + location1.getLongitude())
+                            .addParams("coord_type", MapData.LocType)
+                            .addParams("geotable_id", MapData.ServiceId)
+                            .addParams("state", "1")
+                            .addParams("message_id", "5")
+                            .addParams("user_id", "1")
+                            .addParams("image", imageUrl)
+                            .addParams("address", location1.getAddrStr())
+                            .addParams("title", location1.getAddress().street)
+                            .addParams("time", month + "月" + day + "日" + hour + "点" + min + "分")
+                            .addParams("content", "王八蛋老板日了狗")
+                            .build()
+                            .execute(new StringCallback() {
+                                @Override
+                                public void onError(Call call, Exception e, int id) {
+                                    Toast.makeText(NewMessageActivity.this, "网络连接失败", Toast.LENGTH_LONG).show();
+                                }
+
+                                @Override
+                                public void onResponse(String response, int id) {
+                                    Gson gson = new Gson();
+                                    Map_Lbs_ReturnJson_Data map_lbs_returnJson_data = gson.fromJson(response, Map_Lbs_ReturnJson_Data.class);
+
+                                    if (map_lbs_returnJson_data.getStatus() == 0) {
+                                        System.out.println("云存储成功");
+                                    } else {
+                                        System.out.println("云存储失败,错误代码: " + map_lbs_returnJson_data.getStatus() + ",错误信息: " + map_lbs_returnJson_data.getMessage());
+                                    }
+
+
+                                }
+                            });
+
+                } else {
+                    System.out.println("七牛云上传失败");
+                }
+
+            }
+        }, new UploadOptions(null, "test-type", true, null, null));
     }
 
     private void startLoc() {
@@ -82,49 +186,9 @@ public class NewMessageActivity extends Activity {
                 return;
             }
 
-            GregorianCalendar calendar = new GregorianCalendar();
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            int hour = calendar.get(Calendar.HOUR_OF_DAY);
-            int min = calendar.get(Calendar.MINUTE);
+            location1 = location;
 
-            OkHttpUtils
-                    .post()
-                    .url(MapData.ServiceUrl)
-                    .addParams("ak", MapData.ServiceAk)
-                    .addParams("latitude", "" + location.getLatitude())
-                    .addParams("longitude", "" + location.getLongitude())
-                    .addParams("coord_type", MapData.LocType)
-                    .addParams("geotable_id", MapData.ServiceId)
-                    .addParams("state", "1")
-                    .addParams("message_id", "5")
-                    .addParams("user_id", "1")
-                    .addParams("image", "http://tupian.enterdesk.com/2014/mxy/02/11/4/4.jpg")
-                    .addParams("address", location.getAddrStr())
-                    .addParams("title", location.getAddress().street)
-                    .addParams("time", month + "月" + day + "日" + hour + "点" + min + "分")
-                    .addParams("content", "王八蛋老板日了狗")
-                    .build()
-                    .execute(new StringCallback() {
-                        @Override
-                        public void onError(Call call, Exception e, int id) {
-                            Toast.makeText(NewMessageActivity.this, "网络连接失败", Toast.LENGTH_LONG).show();
-                        }
-
-                        @Override
-                        public void onResponse(String response, int id) {
-                            Gson gson = new Gson();
-                            Map_Lbs_ReturnJson_Data map_lbs_returnJson_data = gson.fromJson(response, Map_Lbs_ReturnJson_Data.class);
-
-                            if (map_lbs_returnJson_data.getStatus() == 0) {
-                                System.out.println("云存储成功");
-                            } else {
-                                System.out.println("云存储失败,错误代码: " + map_lbs_returnJson_data.getStatus() + ",错误信息: " + map_lbs_returnJson_data.getMessage());
-                            }
-
-
-                        }
-                    });
+            System.out.println("新消息页面定位完成");
 
             mLocClient.stop();
 
