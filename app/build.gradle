@@ -33,4 +33,5 @@ dependencies {
     compile 'com.zhy:okhttputils:2.6.2'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.squareup.okio:okio:1.11.0'
+    compile 'com.jph.takephoto:takephoto_library:4.0.2'
 }

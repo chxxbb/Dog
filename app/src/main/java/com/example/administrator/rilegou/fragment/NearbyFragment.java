@@ -174,7 +174,7 @@ public class NearbyFragment extends Fragment {
                                 adapter.notifyDataSetChanged();
                                 mLocClient.stop();
                             } else {
-                                Toast.makeText(getActivity(), "" + response, Toast.LENGTH_LONG).show();
+                                System.out.println(response);
                             }
                         }
                     });

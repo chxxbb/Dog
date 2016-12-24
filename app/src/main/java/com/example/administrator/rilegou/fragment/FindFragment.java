@@ -1,5 +1,6 @@
 package com.example.administrator.rilegou.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,14 +21,20 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
+import com.example.administrator.rilegou.activity.NewMessageActivity;
 import com.example.administrator.rilegou.adapter.HomeViewPageAdapter;
 import com.example.administrator.rilegou.R;
 import com.example.administrator.rilegou.adapter.NearbyListViewAdapter;
 import com.example.administrator.rilegou.data.MapData;
 import com.example.administrator.rilegou.data.Map_Lbs_Json_Data.Contents;
 import com.example.administrator.rilegou.data.Map_Lbs_Json_Data.Root;
+import com.example.administrator.rilegou.data.Map_Lbs_ReturnJson_Data;
 import com.example.administrator.rilegou.data.MyMessageItem;
 import com.google.gson.Gson;
+import com.jph.takephoto.app.TakePhoto;
+import com.jph.takephoto.app.TakePhotoFragment;
+import com.jph.takephoto.model.TImage;
+import com.jph.takephoto.model.TResult;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -39,7 +46,7 @@ import okhttp3.Call;
 /**
  * Created by Administrator on 2016/12/8 0008.
  */
-public class FindFragment extends Fragment {
+public class FindFragment extends TakePhotoFragment {
     View view;
 
     ViewPager viewPager;
@@ -167,6 +174,11 @@ public class FindFragment extends Fragment {
     };
 
     private void startLoc() {
+
+        TakePhoto takePhoto = getTakePhoto();
+
+        takePhoto.onPickFromDocuments();
+
         // 定位初始化
         mLocClient = new LocationClient(getActivity());
         mLocClient.registerLocationListener(myListener);
@@ -210,7 +222,16 @@ public class FindFragment extends Fragment {
 
                         @Override
                         public void onResponse(String response, int id) {
-                            System.out.println(response);
+                            Gson gson = new Gson();
+                            Map_Lbs_ReturnJson_Data map_lbs_returnJson_data = gson.fromJson(response, Map_Lbs_ReturnJson_Data.class);
+
+                            if (map_lbs_returnJson_data.getStatus() == 0) {
+                                System.out.println("云存储成功");
+                            } else {
+                                System.out.println("云存储失败,错误代码: " + map_lbs_returnJson_data.getStatus() + ",错误信息: " + map_lbs_returnJson_data.getMessage());
+                            }
+
+
                         }
                     });
 
@@ -221,6 +242,27 @@ public class FindFragment extends Fragment {
 
         public void onReceivePoi(BDLocation poiLocation) {
         }
+    }
+
+    @Override
+    public void takeSuccess(TResult result) {
+        TImage tImage = result.getImage();
+        String imageStr = tImage.getOriginalPath();
+        Intent intent = new Intent(getActivity(), NewMessageActivity.class);
+        intent.putExtra("image", imageStr);
+        startActivity(intent);
+        super.takeSuccess(result);
+    }
+
+    @Override
+    public void takeFail(TResult result, String msg) {
+        super.takeFail(result, msg);
+        System.out.println("图片获取失败");
+    }
+
+    @Override
+    public void takeCancel() {
+        super.takeCancel();
     }
 
 }
