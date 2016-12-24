@@ -154,6 +154,7 @@ public class NearbyFragment extends Fragment {
 
                         @Override
                         public void onResponse(String response, int id) {
+                            System.out.println(response + "--------------");
                             Gson gson = new Gson();
                             Root root = gson.fromJson(response, Root.class);
 
@@ -165,6 +166,8 @@ public class NearbyFragment extends Fragment {
                                     myMessageItem.setContentImage(contents.getImage().getBig());
                                     myMessageItem.setState(contents.getState());
                                     myMessageItem.setAddress(contents.getTitle());
+                                    myMessageItem.setContent(contents.getContent());
+                                    myMessageItem.setTime(contents.getTime());
 
                                     data.add(myMessageItem);
 

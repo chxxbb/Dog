@@ -20,6 +20,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import okhttp3.Call;
 
 /**
@@ -78,6 +82,12 @@ public class NewMessageActivity extends Activity {
                 return;
             }
 
+            GregorianCalendar calendar = new GregorianCalendar();
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+            int min = calendar.get(Calendar.MINUTE);
+
             OkHttpUtils
                     .post()
                     .url(MapData.ServiceUrl)
@@ -92,6 +102,8 @@ public class NewMessageActivity extends Activity {
                     .addParams("image", "http://tupian.enterdesk.com/2014/mxy/02/11/4/4.jpg")
                     .addParams("address", location.getAddrStr())
                     .addParams("title", location.getAddress().street)
+                    .addParams("time", month + "月" + day + "日" + hour + "点" + min + "分")
+                    .addParams("content", "王八蛋老板日了狗")
                     .build()
                     .execute(new StringCallback() {
                         @Override

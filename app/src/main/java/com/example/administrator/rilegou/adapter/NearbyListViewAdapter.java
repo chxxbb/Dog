@@ -69,6 +69,9 @@ public class NearbyListViewAdapter extends BaseAdapter {
 
             viewHolder.nearby_listv_item_content_Address = (TextView) convertView.findViewById(R.id.nearby_listv_item_content_Address);
 
+            viewHolder.nearby_list_item_content = (TextView) convertView.findViewById(R.id.nearby_list_item_content);
+            viewHolder.nearby_list_item_time = (TextView) convertView.findViewById(R.id.nearby_list_item_time);
+
 
             viewHolder.recyclerView_user_icon = (RecyclerView) convertView.findViewById(R.id.recyclerView_user_icon);
             viewHolder.recyclerView_user_icon.setHasFixedSize(true);
@@ -101,6 +104,9 @@ public class NearbyListViewAdapter extends BaseAdapter {
                 break;
         }
 
+        viewHolder.nearby_list_item_content.setText(myMessageItem.getContent());
+        viewHolder.nearby_list_item_time.setText(myMessageItem.getTime());
+
         //设置顶部消息分类数据
         viewHolder.tv.setText("附近消息");
 
@@ -123,6 +129,8 @@ public class NearbyListViewAdapter extends BaseAdapter {
         TextView tv1;
         ImageView nearby_listv_item_content_image;
         TextView nearby_listv_item_content_Address;
+        TextView nearby_list_item_content;
+        TextView nearby_list_item_time;
     }
 
 

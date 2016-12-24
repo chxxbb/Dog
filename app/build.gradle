@@ -34,4 +34,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.squareup.okio:okio:1.11.0'
     compile 'com.jph.takephoto:takephoto_library:4.0.2'
+    compile 'com.qiniu:qiniu-android-sdk:7.3.+'
+    compile 'com.qiniu:happy-dns:0.2.11'
 }

@@ -39,6 +39,10 @@ public class Contents {
 
     private int weight;
 
+    private String time;
+
+    private String content;
+
     public void setUser_id(int user_id) {
         this.user_id = user_id;
     }
@@ -183,4 +187,19 @@ public class Contents {
         return this.weight;
     }
 
+    public String getTime() {
+        return this.time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getContent() {
+        return this.content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }
