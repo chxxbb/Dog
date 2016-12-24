@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -21,10 +22,19 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.example.administrator.rilegou.adapter.HomeViewPageAdapter;
 import com.example.administrator.rilegou.R;
+import com.example.administrator.rilegou.adapter.NearbyListViewAdapter;
 import com.example.administrator.rilegou.data.MapData;
+import com.example.administrator.rilegou.data.Map_Lbs_Json_Data.Contents;
+import com.example.administrator.rilegou.data.Map_Lbs_Json_Data.Root;
+import com.example.administrator.rilegou.data.MyMessageItem;
+import com.google.gson.Gson;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
 
 /**
  * Created by Administrator on 2016/12/8 0008.
@@ -41,6 +51,11 @@ public class FindFragment extends Fragment {
     View view_hot, view_nearby, view_newest;
 
     RelativeLayout rl_hot, rl_nearby, rl_newest;
+
+    ImageView home_camera;
+    //定位服务
+    LocationClient mLocClient;
+    public MyLocationListenner myListener = new MyLocationListenner();
 
 
     @Nullable
@@ -70,6 +85,8 @@ public class FindFragment extends Fragment {
 
         rl_newest = (RelativeLayout) view.findViewById(R.id.rl_newest);
 
+        home_camera = (ImageView) view.findViewById(R.id.home_camera);
+
         viewPager.addOnPageChangeListener(viewPagerListener);
 
         rl_hot.setOnClickListener(listener);
@@ -77,6 +94,8 @@ public class FindFragment extends Fragment {
         rl_nearby.setOnClickListener(listener);
 
         rl_newest.setOnClickListener(listener);
+
+        home_camera.setOnClickListener(listener);
 
     }
 
@@ -93,6 +112,9 @@ public class FindFragment extends Fragment {
                     break;
                 case R.id.rl_newest:
                     viewPager.setCurrentItem(2, true);
+                    break;
+                case R.id.home_camera:
+                    startLoc();
                     break;
             }
         }
@@ -144,5 +166,61 @@ public class FindFragment extends Fragment {
         }
     };
 
+    private void startLoc() {
+        // 定位初始化
+        mLocClient = new LocationClient(getActivity());
+        mLocClient.registerLocationListener(myListener);
+        LocationClientOption option = new LocationClientOption();
+        option.setOpenGps(true); // 打开gps
+        option.setCoorType("bd09ll"); // 设置坐标类型
+        option.setIsNeedAddress(true);
+        mLocClient.setLocOption(option);
+        mLocClient.start();
+    }
+
+    public class MyLocationListenner implements BDLocationListener {
+
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            // map view 销毁后不在处理新接收的位置
+            if (location == null) {
+                return;
+            }
+
+            OkHttpUtils
+                    .post()
+                    .url(MapData.ServiceUrl)
+                    .addParams("ak", MapData.ServiceAk)
+                    .addParams("latitude", "" + location.getLatitude())
+                    .addParams("longitude", "" + location.getLongitude())
+                    .addParams("coord_type", MapData.LocType)
+                    .addParams("geotable_id", MapData.ServiceId)
+                    .addParams("state", "1")
+                    .addParams("message_id", "5")
+                    .addParams("user_id", "1")
+                    .addParams("image", "http://tupian.enterdesk.com/2014/mxy/02/11/4/4.jpg")
+                    .addParams("address", location.getAddrStr())
+                    .addParams("title", location.getAddress().street)
+                    .build()
+                    .execute(new StringCallback() {
+                        @Override
+                        public void onError(Call call, Exception e, int id) {
+                            Toast.makeText(getActivity(), "网络连接失败", Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onResponse(String response, int id) {
+                            System.out.println(response);
+                        }
+                    });
+
+            mLocClient.stop();
+
+        }
+
+
+        public void onReceivePoi(BDLocation poiLocation) {
+        }
+    }
 
 }
