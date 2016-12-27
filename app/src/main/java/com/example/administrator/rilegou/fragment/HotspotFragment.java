@@ -75,6 +75,7 @@ public class HotspotFragment extends Fragment {
     public MyLocationListenner myListener = new MyLocationListenner();
     private MyLocationConfiguration.LocationMode mCurrentMode;
     boolean isFirstLoc = true; // 是否首次定位
+    boolean isFirstListener = false; //是否设置监听器
     Double latitude, longitude;
 
     //点聚合相关
@@ -281,12 +282,14 @@ public class HotspotFragment extends Fragment {
                 if (Math.abs(latitude - location.getLatitude()) > 0.005 || Math.abs(longitude - location.getLongitude()) > 0.005) {
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
-                    addMarkers(location);
+                    LatLng latLng = new LatLng(latitude, longitude);
+                    addMarkers(latLng);
                 }
             } else {
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
-                addMarkers(location);
+                LatLng latLng = new LatLng(latitude, longitude);
+                addMarkers(latLng);
             }
 
         }
@@ -298,15 +301,15 @@ public class HotspotFragment extends Fragment {
     /**
      * 向地图添加Marker点
      */
-    public void addMarkers(BDLocation location) {
+    public void addMarkers(LatLng location) {
 
         OkHttpUtils
                 .get()
                 .url("http://api.map.baidu.com/geosearch/v3/nearby" + "?" + MapData.mCode)
                 .addParams("ak", "6lKaHhn3GieVEaTZFCaEC3XrFdOFbHMX")
                 .addParams("geotable_id", "160652")
-                .addParams("location", location.getLongitude() + "," + location.getLatitude())
-                .addParams("radius", "1000")
+                .addParams("location", location.longitude + "," + location.latitude)
+                .addParams("radius", "3000")
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
@@ -328,6 +331,28 @@ public class HotspotFragment extends Fragment {
                     }
                     mClusterManager.clearItems();
                     mClusterManager.addItems(items);
+//                    if (!isFirstListener) {
+//                        mBaiduMap.setOnMapStatusChangeListener(new BaiduMap.OnMapStatusChangeListener() {
+//                            @Override
+//                            public void onMapStatusChangeStart(MapStatus mapStatus) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onMapStatusChange(MapStatus mapStatus) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onMapStatusChangeFinish(MapStatus mapStatus) {
+//                                LatLng latLng = mapStatus.target;
+//                                addMarkers(latLng);
+//                                System.out.println("--------监听器设置完成------------" + latLng.longitude + "," + latLng.latitude);
+//                            }
+//                        });
+//                        isFirstListener = true;
+//                    }
+
                 } else {
                     Toast.makeText(getActivity(), "" + response, Toast.LENGTH_LONG).show();
                 }

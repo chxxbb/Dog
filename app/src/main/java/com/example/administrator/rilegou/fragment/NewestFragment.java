@@ -101,7 +101,6 @@ public class NewestFragment extends Fragment {
 
                         @Override
                         public void onResponse(String response, int id) {
-                            System.out.println(response + "--------------");
                             Gson gson = new Gson();
                             Root root = gson.fromJson(response, Root.class);
 
