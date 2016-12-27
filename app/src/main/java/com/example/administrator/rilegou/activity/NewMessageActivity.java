@@ -16,6 +16,7 @@ import com.example.administrator.rilegou.data.MapData;
 import com.example.administrator.rilegou.data.Map_Lbs_ReturnJson_Data;
 import com.example.administrator.rilegou.data.QiNiuData.QiNiu_Json;
 import com.example.administrator.rilegou.fragment.FindFragment;
+import com.example.administrator.rilegou.utils.AssetsCopyTOSDcard;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.qiniu.android.common.Zone;
@@ -44,6 +45,7 @@ public class NewMessageActivity extends Activity {
     ImageView new_message_imageview;
     Button new_message_send_button;
     String imageStr;
+    File file;
 
     //定位服务
     LocationClient mLocClient;
@@ -77,8 +79,17 @@ public class NewMessageActivity extends Activity {
 
     }
 
+    @Override
+    protected void onPause() {
+        if (fileIsExists(MapData.path)) {
+            file.delete();
+        }
+        super.onPause();
+    }
+
     private void findID() {
         imageStr = getIntent().getExtras().getString("image");
+        file = (File) getIntent().getExtras().get("file");
 
         new_message_imageview = (ImageView) findViewById(R.id.new_message_imageview);
         new_message_send_button = (Button) findViewById(R.id.new_message_send_button);
@@ -174,6 +185,7 @@ public class NewMessageActivity extends Activity {
         option.setCoorType("bd09ll"); // 设置坐标类型
         option.setIsNeedAddress(true);
         mLocClient.setLocOption(option);
+        MapData.mLocClient = mLocClient;
         mLocClient.start();
     }
 
@@ -199,5 +211,18 @@ public class NewMessageActivity extends Activity {
         }
     }
 
+    public boolean fileIsExists(String file) {
+        try {
+            File f = new File(file);
+            if (!f.exists()) {
+                return false;
+            }
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            return false;
+        }
+        return true;
+    }
 
 }

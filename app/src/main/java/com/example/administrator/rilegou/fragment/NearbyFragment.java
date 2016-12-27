@@ -7,7 +7,10 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
@@ -52,7 +55,6 @@ public class NearbyFragment extends Fragment {
     LocationClient mLocClient;
     public MyLocationListenner myListener = new MyLocationListenner();
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class NearbyFragment extends Fragment {
         findView();
 
         init();
+
         return view;
     }
 

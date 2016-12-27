@@ -1,47 +1,33 @@
 package com.example.administrator.rilegou.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.map.MapStatus;
-import com.baidu.mapapi.map.MapStatusUpdateFactory;
-import com.baidu.mapapi.map.MyLocationConfiguration;
-import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.model.LatLng;
 import com.example.administrator.rilegou.activity.NewMessageActivity;
 import com.example.administrator.rilegou.adapter.HomeViewPageAdapter;
 import com.example.administrator.rilegou.R;
-import com.example.administrator.rilegou.adapter.NearbyListViewAdapter;
-import com.example.administrator.rilegou.data.MapData;
-import com.example.administrator.rilegou.data.Map_Lbs_Json_Data.Contents;
-import com.example.administrator.rilegou.data.Map_Lbs_Json_Data.Root;
-import com.example.administrator.rilegou.data.Map_Lbs_ReturnJson_Data;
-import com.example.administrator.rilegou.data.MyMessageItem;
-import com.google.gson.Gson;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoFragment;
 import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.Call;
 
 /**
  * Created by Administrator on 2016/12/8 0008.
@@ -60,6 +46,45 @@ public class FindFragment extends TakePhotoFragment {
     RelativeLayout rl_hot, rl_nearby, rl_newest;
 
     ImageView home_camera;
+    TakePhoto takePhoto;
+
+    private static final int MENU_ITEM_COUNTER = Menu.FIRST;
+    File file;
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        menu.add(0, MENU_ITEM_COUNTER + 1, 0, "照相");
+        menu.add(0, MENU_ITEM_COUNTER + 2, 0, "相册");
+
+        super.onCreateContextMenu(menu, v, menuInfo);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case MENU_ITEM_COUNTER + 1:
+
+                takePhoto = getTakePhoto();
+
+                file = new File(Environment.getExternalStorageDirectory(), "/temp/" + System.currentTimeMillis() + ".jpg");
+
+                if (!file.getParentFile().exists()) {
+                    file.getParentFile().mkdirs();
+                }
+                Uri imageUri = Uri.fromFile(file);
+
+                takePhoto.onPickFromCapture(imageUri);
+
+                break;
+            case MENU_ITEM_COUNTER + 2:
+
+                takePhoto = getTakePhoto();
+                takePhoto.onPickFromDocuments();
+
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Nullable
     @Override
@@ -89,6 +114,7 @@ public class FindFragment extends TakePhotoFragment {
         rl_newest = (RelativeLayout) view.findViewById(R.id.rl_newest);
 
         home_camera = (ImageView) view.findViewById(R.id.home_camera);
+        registerForContextMenu(home_camera);
 
         viewPager.addOnPageChangeListener(viewPagerListener);
 
@@ -117,7 +143,7 @@ public class FindFragment extends TakePhotoFragment {
                     viewPager.setCurrentItem(2, true);
                     break;
                 case R.id.home_camera:
-                    startPhoto();
+                    home_camera.showContextMenu();
                     break;
             }
         }
@@ -169,31 +195,26 @@ public class FindFragment extends TakePhotoFragment {
         }
     };
 
-    private void startPhoto() {
-
-        TakePhoto takePhoto = getTakePhoto();
-
-        takePhoto.onPickFromDocuments();
-    }
-
     @Override
     public void takeSuccess(TResult result) {
         TImage tImage = result.getImage();
         String imageStr = tImage.getOriginalPath();
         Intent intent = new Intent(getActivity(), NewMessageActivity.class);
         intent.putExtra("image", imageStr);
+        intent.putExtra("file", file);
         startActivity(intent);
         super.takeSuccess(result);
     }
 
     @Override
     public void takeFail(TResult result, String msg) {
-        super.takeFail(result, msg);
         System.out.println("图片获取失败");
+        super.takeFail(result, msg);
     }
 
     @Override
     public void takeCancel() {
+        System.out.println("取消获取");
         super.takeCancel();
     }
 
