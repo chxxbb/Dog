@@ -147,7 +147,8 @@ public class NearbyFragment extends Fragment {
                     .addParams("ak", MapData.Ak)
                     .addParams("geotable_id", MapData.ServiceNumber)
                     .addParams("location", location.getLongitude() + "," + location.getLatitude())
-                    .addParams("radius", "1000")
+                    .addParams("radius", "100000")
+                    .addParams("sortby", "distance:1")
                     .build()
                     .execute(new StringCallback() {
                         @Override

@@ -91,7 +91,8 @@ public class HotFragment extends Fragment {
                     .addParams("ak", MapData.Ak)
                     .addParams("geotable_id", MapData.ServiceNumber)
                     .addParams("location", location.getLongitude() + "," + location.getLatitude())
-                    .addParams("radius", "1000")
+                    .addParams("sortby", "distance:1")
+                    .addParams("radius", "100000")
                     .build()
                     .execute(new StringCallback() {
                         @Override
@@ -106,7 +107,7 @@ public class HotFragment extends Fragment {
                             Root root = gson.fromJson(response, Root.class);
 
                             if (root.getStatus() == 0) {
-                                System.out.println("附近页面检索反馈正常");
+                                System.out.println("热门页面检索反馈正常");
                                 for (Contents contents : root.getContents()) {
                                     MyMessageItem myMessageItem = new MyMessageItem();
 
