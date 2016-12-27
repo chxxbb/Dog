@@ -14,6 +14,7 @@ import com.baidu.location.LocationClientOption;
 import com.example.administrator.rilegou.R;
 import com.example.administrator.rilegou.data.MapData;
 import com.example.administrator.rilegou.data.Map_Lbs_ReturnJson_Data;
+import com.example.administrator.rilegou.data.QiNiuData.QiNiuKey;
 import com.example.administrator.rilegou.data.QiNiuData.QiNiu_Json;
 import com.example.administrator.rilegou.fragment.FindFragment;
 import com.example.administrator.rilegou.utils.AssetsCopyTOSDcard;
@@ -51,10 +52,9 @@ public class NewMessageActivity extends Activity {
     LocationClient mLocClient;
     public MyLocationListenner myListener = new MyLocationListenner();
 
-
     //七牛云服务相关
     //指定upToken, 强烈建议从服务端提供get请求获取, 这里为了掩饰直接指定key
-    public static String uptoken = "2mfij5tP6_1B0hlfZpFZVsP5GrbwT-2_CdVuM77o:rcrplEimjryaO236Zg936cGJqg0=:eyJzY29wZSI6Im15ZG9nIiwiZGVhZGxpbmUiOjE0ODI2MDI1MjR9";
+
     private UploadManager uploadManager;
     BDLocation location1;
 
@@ -119,7 +119,7 @@ public class NewMessageActivity extends Activity {
         File file = new File(imageStr);
         //设置上传后文件的key
         String upkey = null;
-        uploadManager.put(file, upkey, uptoken, new UpCompletionHandler() {
+        uploadManager.put(file, upkey, QiNiuKey.uptoken, new UpCompletionHandler() {
             public void complete(String key, ResponseInfo rinfo, JSONObject response) {
 
                 if (rinfo.isOK()) {
