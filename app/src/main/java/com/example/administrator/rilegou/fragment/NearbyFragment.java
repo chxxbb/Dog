@@ -144,8 +144,8 @@ public class NearbyFragment extends Fragment {
             OkHttpUtils
                     .get()
                     .url("http://api.map.baidu.com/geosearch/v3/nearby" + "?" + MapData.mCode)
-                    .addParams("ak", "6lKaHhn3GieVEaTZFCaEC3XrFdOFbHMX")
-                    .addParams("geotable_id", "160652")
+                    .addParams("ak", MapData.Ak)
+                    .addParams("geotable_id", MapData.ServiceNumber)
                     .addParams("location", location.getLongitude() + "," + location.getLatitude())
                     .addParams("radius", "1000")
                     .build()

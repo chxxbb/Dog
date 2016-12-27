@@ -18,7 +18,9 @@ public class MapData {
     public static String path;
     public static String mCode = "mcode=77:27:1B:6B:44:71:FE:CB:78:27:F6:2E:F9:1B:23:AC:5C:2A:7E:DA;com.example.administrator.rilegou";
     public static String ServiceAk = "Y8uhZLWpinsI8IjhhI8VLqZfNKDfRg0G";
+    public static String Ak = "6lKaHhn3GieVEaTZFCaEC3XrFdOFbHMX";
     public static String ServiceId = "160652";
     public static String LocType = "3";
     public static String ServiceUrl = "http://api.map.baidu.com/geodata/v3/poi/create";
+    public static String ServiceNumber = "160652";
 }
