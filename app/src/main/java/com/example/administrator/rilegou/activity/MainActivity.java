@@ -136,13 +136,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         // 退出时销毁定位
-        MapData.mLocClient.stop();
-        // 关闭定位图层
-        MapData.mBaiduMap.setMyLocationEnabled(false);
-
-        //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
+        if (MapData.mLocClient != null) {
+            //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
+            MapData.mLocClient.stop();
+            // 关闭定位图层
+            MapData.mBaiduMap.setMyLocationEnabled(false);
+        }
         MapData.mMapView.onDestroy();
         MapData.mMapView = null;
+
         super.onDestroy();
     }
 

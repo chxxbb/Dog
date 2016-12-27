@@ -81,7 +81,7 @@ public class NewMessageActivity extends Activity {
 
     @Override
     protected void onPause() {
-        if (fileIsExists(MapData.path)) {
+        if (file != null && fileIsExists(MapData.path)) {
             file.delete();
         }
         super.onPause();
