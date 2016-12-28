@@ -207,7 +207,7 @@ public class ClusterManager<T extends ClusterItem> implements
         if (Math.abs(MapData.now_mark_loc.latitude - mapStatus.target.latitude) > 0.005
                 || Math.abs(MapData.now_mark_loc.longitude - mapStatus.target.longitude) > 0.005) {
 
-            HotspotFragment.addMarkers(new LatLng(mapStatus.target.latitude, mapStatus.target.longitude));
+            HotspotFragment.addMarkers(new LatLng(mapStatus.target.latitude, mapStatus.target.longitude), mapStatus);
 
         }
 

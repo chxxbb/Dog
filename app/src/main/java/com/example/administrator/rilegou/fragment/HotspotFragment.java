@@ -263,6 +263,7 @@ public class HotspotFragment extends Fragment {
             if (location == null || mMapView == null) {
                 return;
             }
+
             //获取位置信息
             MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(location.getRadius())
@@ -291,13 +292,13 @@ public class HotspotFragment extends Fragment {
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
                     LatLng latLng = new LatLng(latitude, longitude);
-                    addMarkers(latLng);
+                    addMarkers(latLng, null);
                 }
             } else {
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
                 LatLng latLng = new LatLng(latitude, longitude);
-                addMarkers(latLng);
+                addMarkers(latLng, null);
             }
 
         }
@@ -309,7 +310,7 @@ public class HotspotFragment extends Fragment {
     /**
      * 向地图添加Marker点
      */
-    public static void addMarkers(LatLng location) {
+    public static void addMarkers(LatLng location, final MapStatus mapStatus) {
 
         MapData.now_mark_loc = location;
 
@@ -341,6 +342,11 @@ public class HotspotFragment extends Fragment {
                     }
                     MapData.mClusterManager.clearItems();
                     MapData.mClusterManager.addItems(items);
+                    if (mapStatus != null) {        //这是为了解决重新填入Mark点后,必须手动缩放地图才能刷新显示出来的BUG而采用的奇葩办法...(强行-0.001的缩放级别- -|||)
+                        MapData.mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom((float) (mapStatus.zoom - 0.001)).build()));
+                        System.out.println("------------!null-----------");
+                    }
+
                 } else {
                     Toast.makeText(ActivityData.Hot, "" + response, Toast.LENGTH_LONG).show();
                 }
