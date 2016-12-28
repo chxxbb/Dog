@@ -7,4 +7,5 @@ import android.app.Activity;
  */
 public class ActivityData {
     public static Activity LOGIN_ACTIVITY;
+    public static Activity Hot;
 }

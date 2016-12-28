@@ -1,10 +1,12 @@
 package com.example.administrator.rilegou.fragment;
 
+import android.app.Activity;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,9 +18,11 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.clusterutil.MarkerManager;
 import com.baidu.mapapi.clusterutil.clustering.Cluster;
 import com.baidu.mapapi.clusterutil.clustering.ClusterManager;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -27,6 +31,7 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.example.administrator.rilegou.R;
 import com.example.administrator.rilegou.adapter.HotspotListViewAdapter;
+import com.example.administrator.rilegou.data.ActivityData;
 import com.example.administrator.rilegou.data.AdapterItemList;
 import com.example.administrator.rilegou.data.MapData;
 import com.example.administrator.rilegou.data.Map_Lbs_Json_Data.Contents;
@@ -73,23 +78,24 @@ public class HotspotFragment extends Fragment {
     // 定位相关
     LocationClient mLocClient;
     public MyLocationListenner myListener = new MyLocationListenner();
-    private MyLocationConfiguration.LocationMode mCurrentMode;
+    public MyLocationConfiguration.LocationMode mCurrentMode;
     boolean isFirstLoc = true; // 是否首次定位
-    boolean isFirstListener = false; //是否设置监听器
     Double latitude, longitude;
 
     //点聚合相关
-    private ClusterManager<MyItem> mClusterManager;
+
     MapStatus ms;
+
 
     public HotspotFragment() {
 
     }
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        ActivityData.Hot = getActivity();
 
         view = MapData.view;
         this.mBaiduMap = MapData.mBaiduMap;
@@ -158,6 +164,7 @@ public class HotspotFragment extends Fragment {
                     case 0:
                         loveImageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.hotspot_love_image1));
                         love_i = 1;
+
                         break;
                     case 1:
                         loveImageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.hotspot_love_image));
@@ -185,15 +192,15 @@ public class HotspotFragment extends Fragment {
 
     private void Point_aggregation() {
         // 定义点聚合管理类ClusterManager
-        mClusterManager = new ClusterManager<MyItem>(getActivity(), mBaiduMap);
+        MapData.mClusterManager = new ClusterManager<MyItem>(getContext(), mBaiduMap);
 
         // 设置地图监听，当地图状态发生改变时，进行点聚合运算
-        mBaiduMap.setOnMapStatusChangeListener(mClusterManager);
+        mBaiduMap.setOnMapStatusChangeListener(MapData.mClusterManager);
 
         // 设置maker点击时的响应
-        mBaiduMap.setOnMarkerClickListener(mClusterManager);
+        mBaiduMap.setOnMarkerClickListener(MapData.mClusterManager);
 
-        mClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyItem>() {
+        MapData.mClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyItem>() {
             @Override
             public boolean onClusterClick(Cluster<MyItem> cluster) {
                 Toast.makeText(getActivity(),
@@ -202,7 +209,7 @@ public class HotspotFragment extends Fragment {
                 return false;
             }
         });
-        mClusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<MyItem>() {
+        MapData.mClusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<MyItem>() {
             @Override
             public boolean onClusterItemClick(MyItem item) {
                 Toast.makeText(getActivity(),
@@ -215,6 +222,7 @@ public class HotspotFragment extends Fragment {
                 return false;
             }
         });
+
     }
 
     private void setMarkers(Cluster<MyItem> cluster) {
@@ -301,7 +309,9 @@ public class HotspotFragment extends Fragment {
     /**
      * 向地图添加Marker点
      */
-    public void addMarkers(LatLng location) {
+    public static void addMarkers(LatLng location) {
+
+        MapData.now_mark_loc = location;
 
         OkHttpUtils
                 .get()
@@ -313,7 +323,7 @@ public class HotspotFragment extends Fragment {
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
-                Toast.makeText(getActivity(), "网络连接失败", Toast.LENGTH_LONG).show();
+                Toast.makeText(ActivityData.Hot, "网络连接失败", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -329,32 +339,10 @@ public class HotspotFragment extends Fragment {
                     for (Contents contents : root.getContents()) {
                         items.add(addMarkersData(contents, items));
                     }
-                    mClusterManager.clearItems();
-                    mClusterManager.addItems(items);
-//                    if (!isFirstListener) {
-//                        mBaiduMap.setOnMapStatusChangeListener(new BaiduMap.OnMapStatusChangeListener() {
-//                            @Override
-//                            public void onMapStatusChangeStart(MapStatus mapStatus) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onMapStatusChange(MapStatus mapStatus) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onMapStatusChangeFinish(MapStatus mapStatus) {
-//                                LatLng latLng = mapStatus.target;
-//                                addMarkers(latLng);
-//                                System.out.println("--------监听器设置完成------------" + latLng.longitude + "," + latLng.latitude);
-//                            }
-//                        });
-//                        isFirstListener = true;
-//                    }
-
+                    MapData.mClusterManager.clearItems();
+                    MapData.mClusterManager.addItems(items);
                 } else {
-                    Toast.makeText(getActivity(), "" + response, Toast.LENGTH_LONG).show();
+                    Toast.makeText(ActivityData.Hot, "" + response, Toast.LENGTH_LONG).show();
                 }
             }
 

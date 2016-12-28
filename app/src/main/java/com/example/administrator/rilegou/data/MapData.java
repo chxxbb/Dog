@@ -3,8 +3,10 @@ package com.example.administrator.rilegou.data;
 import android.view.View;
 
 import com.baidu.location.LocationClient;
+import com.baidu.mapapi.clusterutil.clustering.ClusterManager;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.model.LatLng;
 
 /**
  * Created by Chen on 2016/12/15.
@@ -23,4 +25,6 @@ public class MapData {
     public static String LocType = "3";
     public static String ServiceUrl = "http://api.map.baidu.com/geodata/v3/poi/create";
     public static String ServiceNumber = "160652";
+    public static LatLng now_mark_loc;    //当前点聚合的定位点
+    public static ClusterManager<MyItem> mClusterManager;
 }

@@ -4,9 +4,11 @@
 
 package com.baidu.mapapi.clusterutil.clustering;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.widget.Toast;
 
 import com.baidu.mapapi.clusterutil.MarkerManager;
 import com.baidu.mapapi.clusterutil.clustering.algo.Algorithm;
@@ -17,11 +19,25 @@ import com.baidu.mapapi.clusterutil.clustering.view.DefaultClusterRenderer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.Marker;
+import com.baidu.mapapi.model.LatLng;
+import com.example.administrator.rilegou.activity.MainActivity;
+import com.example.administrator.rilegou.data.MapData;
+import com.example.administrator.rilegou.data.Map_Lbs_Json_Data.Contents;
+import com.example.administrator.rilegou.data.Map_Lbs_Json_Data.Root;
+import com.example.administrator.rilegou.data.MyItem;
+import com.example.administrator.rilegou.fragment.HotspotFragment;
+import com.google.gson.Gson;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+import okhttp3.Call;
 
 /**
  * Groups many items on a map based on zoom level.
@@ -49,6 +65,8 @@ public class ClusterManager<T extends ClusterItem> implements
     private OnClusterItemInfoWindowClickListener<T> mOnClusterItemInfoWindowClickListener;
     private OnClusterClickListener<T> mOnClusterClickListener;
 
+    private Context context;
+
     public ClusterManager(Context context, BaiduMap map) {
         this(context, map, new MarkerManager(map));
     }
@@ -59,6 +77,7 @@ public class ClusterManager<T extends ClusterItem> implements
         mClusterMarkers = markerManager.newCollection();
         mMarkers = markerManager.newCollection();
         mRenderer = new DefaultClusterRenderer<T>(context, map, this);
+        this.context = context;
         mAlgorithm = new PreCachingAlgorithmDecorator<T>(new NonHierarchicalDistanceBasedAlgorithm<T>());
         mClusterTask = new ClusterTask();
         mRenderer.onAdd();
@@ -185,6 +204,12 @@ public class ClusterManager<T extends ClusterItem> implements
 
     @Override
     public void onMapStatusChangeFinish(MapStatus mapStatus) {
+        if (Math.abs(MapData.now_mark_loc.latitude - mapStatus.target.latitude) > 0.005
+                || Math.abs(MapData.now_mark_loc.longitude - mapStatus.target.longitude) > 0.005) {
+
+            HotspotFragment.addMarkers(new LatLng(mapStatus.target.latitude, mapStatus.target.longitude));
+
+        }
 
     }
 
@@ -276,4 +301,5 @@ public class ClusterManager<T extends ClusterItem> implements
     public interface OnClusterItemInfoWindowClickListener<T extends ClusterItem> {
         public void onClusterItemInfoWindowClick(T item);
     }
+
 }
