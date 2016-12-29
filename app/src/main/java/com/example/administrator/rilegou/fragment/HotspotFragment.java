@@ -245,17 +245,23 @@ public class HotspotFragment extends Fragment {
 
     }
 
+    /**
+     * 根据传入不同的参数来添加Mark的详情数据到展示列表
+     *
+     * @param cluster 点聚合后的多个Mark数据列表
+     * @param myItem  点聚合之前的单个Mark数据类
+     */
     private void setMarkers(Cluster<MyItem> cluster, MyItem myItem) {
 
-        hot_list_relativelayout.setVisibility(View.VISIBLE);
-        list.clear();
+        hot_list_relativelayout.setVisibility(View.VISIBLE);    //显示展示列表
+        list.clear();   //清除之前的列表数据
 
-        if (cluster != null) {
+        if (cluster != null) {      //多个Mark列表
             for (MyItem item : cluster.getItems()) {
                 adapterItemList = new AdapterItemList(0, item.mContent, item.mUserName, item.mLoc, item.mTime, item.mState, item.mBitmap);
                 list.add(adapterItemList);
             }
-        } else if (myItem != null) {
+        } else if (myItem != null) {    //单个Mark的数据
             adapterItemList = new AdapterItemList(0, myItem.mContent, myItem.mUserName, myItem.mLoc, myItem.mTime, myItem.mState, myItem.mBitmap);
             list.add(adapterItemList);
         }
@@ -334,7 +340,10 @@ public class HotspotFragment extends Fragment {
     }
 
     /**
-     * 向地图添加Marker点
+     * 向地图添加Mark点
+     *
+     * @param location  Mark点的坐标
+     * @param mapStatus 当前的地图缩放级别,用来解决一个BUG
      */
     public static void addMarkers(LatLng location, final MapStatus mapStatus) {
 
