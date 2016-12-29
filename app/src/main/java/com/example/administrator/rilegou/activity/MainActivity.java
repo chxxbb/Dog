@@ -204,10 +204,9 @@ public class MainActivity extends AppCompatActivity {
 //        //获取应用程序管理器
 //        ActivityManager manager = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
 //        manager.killBackgroundProcesses(getPackageName()); //强制结束当前应用程序
-
+        System.out.println("------Kill进程---------");
         int pid = android.os.Process.myPid();    //获取当前应用程序的PID
         android.os.Process.killProcess(pid);
-
         super.onDestroy();
     }
 
