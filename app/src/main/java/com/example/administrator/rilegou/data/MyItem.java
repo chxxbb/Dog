@@ -19,8 +19,8 @@ public class MyItem implements ClusterItem {
     private final LatLng mPosition;
 
     public String mContent;
-    public Bitmap mBitmap;
-    public Bitmap mHeadBitmap;
+    public String mBitmap;         //内容图片
+    public String mHeadBitmap;//头像图片
     public String mUserName;
     public String mLoc;
     public String mTime;
@@ -42,20 +42,20 @@ public class MyItem implements ClusterItem {
         return this;
     }
 
-    public Bitmap getmBitmap() {
+    public String getmBitmap() {
         return mBitmap;
     }
 
-    public MyItem setmBitmap(Bitmap mBitmap) {
+    public MyItem setmBitmap(String mBitmap) {
         this.mBitmap = mBitmap;
         return this;
     }
 
-    public Bitmap getmHeadBitmap() {
+    public String getmHeadBitmap() {
         return mHeadBitmap;
     }
 
-    public MyItem setmHeadBitmap(Bitmap mHeadBitmap) {
+    public MyItem setmHeadBitmap(String mHeadBitmap) {
         this.mHeadBitmap = mHeadBitmap;
         return this;
     }

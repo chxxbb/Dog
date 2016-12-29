@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -55,6 +56,7 @@ public class HotspotFragment extends Fragment {
     //UI相关
     RelativeLayout locImagereLativelayout;  //定位按钮
 
+
     RelativeLayout focusRelativeLayout;     //我的关注相关
     ImageView focusImageView;
     int focus_i = 0;
@@ -67,7 +69,9 @@ public class HotspotFragment extends Fragment {
     AdapterItemList adapterItemList;
     List<AdapterItemList> list = new ArrayList<AdapterItemList>();
     HotspotListViewAdapter hotspotListViewAdapter;
-    RelativeLayout list_relativelayout;
+    RelativeLayout hot_list_relativelayout;
+    RelativeLayout.LayoutParams linearParams;   //用来动态设置高度
+    double height;
     RelativeLayout hotspot_list_top_relativelayout;
 
 
@@ -122,6 +126,10 @@ public class HotspotFragment extends Fragment {
 
     private void init() {
 
+        hot_list_relativelayout = (RelativeLayout) view.findViewById(R.id.hot_list_relativelayout);
+        linearParams = (RelativeLayout.LayoutParams) hot_list_relativelayout.getLayoutParams();
+        height = linearParams.height;   //保存一下控件初始高度
+
         locImagereLativelayout = (RelativeLayout) view.findViewById(R.id.hotspot_location_relativelayout);
 
         locImagereLativelayout.setOnClickListener(new View.OnClickListener() {
@@ -175,12 +183,11 @@ public class HotspotFragment extends Fragment {
         });
 
 
-        list_relativelayout = (RelativeLayout) view.findViewById(R.id.list_relativelayout);
         hotspot_list_top_relativelayout = (RelativeLayout) view.findViewById(R.id.hotspot_list_top_relativelayout);
         hotspot_list_top_relativelayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                list_relativelayout.setVisibility(View.GONE);
+                hot_list_relativelayout.setVisibility(View.GONE);
             }
         });
 
@@ -210,7 +217,13 @@ public class HotspotFragment extends Fragment {
             public boolean onClusterClick(Cluster<MyItem> cluster) {
                 Toast.makeText(getActivity(),
                         "有" + cluster.getSize() + "个点", Toast.LENGTH_SHORT).show();
-                setMarkers(cluster);
+                setMarkers(cluster, null);
+
+                if (linearParams.height != height) {    //若高度不等于初始高度,则说明已经被改变,改回来之.
+                    linearParams.height = linearParams.height * 2;
+                    hot_list_relativelayout.setLayoutParams(linearParams);
+                }
+
                 return false;
             }
         });
@@ -219,9 +232,11 @@ public class HotspotFragment extends Fragment {
             public boolean onClusterItemClick(MyItem item) {
                 Toast.makeText(getActivity(),
                         "点击单个Item", Toast.LENGTH_SHORT).show();
-                if (item.getmContent() != null) {
-                    Toast.makeText(getActivity(),
-                            item.mContent, Toast.LENGTH_SHORT).show();
+                setMarkers(null, item);
+
+                if (linearParams.height != height / 2) {    //若不等于初始高度除以二,则除以二以适应单个item的布局.
+                    linearParams.height = linearParams.height / 2;
+                    hot_list_relativelayout.setLayoutParams(linearParams);
                 }
 
                 return false;
@@ -230,15 +245,21 @@ public class HotspotFragment extends Fragment {
 
     }
 
-    private void setMarkers(Cluster<MyItem> cluster) {
+    private void setMarkers(Cluster<MyItem> cluster, MyItem myItem) {
 
-        list_relativelayout.setVisibility(View.VISIBLE);
+        hot_list_relativelayout.setVisibility(View.VISIBLE);
         list.clear();
 
-        for (MyItem item : cluster.getItems()) {
-            adapterItemList = new AdapterItemList(0, item.mContent, item.mUserName, item.mLoc, item.mTime, item.mState);
+        if (cluster != null) {
+            for (MyItem item : cluster.getItems()) {
+                adapterItemList = new AdapterItemList(0, item.mContent, item.mUserName, item.mLoc, item.mTime, item.mState, item.mBitmap);
+                list.add(adapterItemList);
+            }
+        } else if (myItem != null) {
+            adapterItemList = new AdapterItemList(0, myItem.mContent, myItem.mUserName, myItem.mLoc, myItem.mTime, myItem.mState, myItem.mBitmap);
             list.add(adapterItemList);
         }
+
 
         hotspotListViewAdapter.setList(list);
         hotspotListViewAdapter.notifyDataSetChanged();
@@ -366,10 +387,11 @@ public class HotspotFragment extends Fragment {
                 LatLng llA = new LatLng(contents.getLocation().get(1), contents.getLocation().get(0));  //设置经纬度(纬度1,经度0)
                 return new MyItem(llA)
                         .setmUserName("二营长")
-                        .setmTime("9月17日")
                         .setmContent("你他娘的意大利炮呢···")
                         .setmLoc(contents.getTitle())               //设置地名
-                        .setmState(contents.getState());            //设置目标状态 正常 危险 伤病
+                        .setmState(contents.getState())            //设置目标状态 正常 危险 伤病
+                        .setmTime(contents.getTime())
+                        .setmBitmap(contents.getImage().getBig());
             }
         });
 

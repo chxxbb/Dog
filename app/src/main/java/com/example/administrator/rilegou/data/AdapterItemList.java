@@ -12,8 +12,8 @@ public class AdapterItemList {
     public static final int Content_COUNT = 1;
 
     private String mContent;
-    private Bitmap mBitmap;
-    private Bitmap mHeadBitmap;
+    private String mBitmap;
+    private String mHeadBitmap;
     private String mUserName;
     private String mLoc;
     private String mTime;
@@ -27,13 +27,14 @@ public class AdapterItemList {
         this.type = type;
     }
 
-    public AdapterItemList(int type, String mContent, String mUserName, String mLoc, String mTime, int mState) {
+    public AdapterItemList(int type, String mContent, String mUserName, String mLoc, String mTime, int mState, String mBitmap) {
         this.mContent = mContent;
         this.mUserName = mUserName;
         this.mLoc = mLoc;
         this.mTime = mTime;
         this.mState = mState;
         this.type = type;
+        this.mBitmap = mBitmap;
     }
 
     public int getType() {
@@ -44,11 +45,11 @@ public class AdapterItemList {
         return mContent;
     }
 
-    public Bitmap getmBitmap() {
+    public String getmBitmap() {
         return mBitmap;
     }
 
-    public Bitmap getmHeadBitmap() {
+    public String getmHeadBitmap() {
         return mHeadBitmap;
     }
 

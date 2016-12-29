@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/list_relativelayout"
+        android:id="@+id/hot_list_relativelayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y710"
         android:layout_alignParentBottom="true"
@@ -45,7 +45,7 @@
         android:id="@+id/bmapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/list_relativelayout"
+        android:layout_above="@id/hot_list_relativelayout"
         android:clickable="true" />
 
     <RelativeLayout

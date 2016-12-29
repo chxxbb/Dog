@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.administrator.rilegou.R;
 import com.example.administrator.rilegou.data.AdapterItemList;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -80,6 +82,7 @@ public class HotspotListViewAdapter extends BaseAdapter {
                     holder.hotspot_listview_item_state = (TextView) convertView.findViewById(R.id.hotspot_listview_item_state);
                     holder.hotspot_listview_item_time = (TextView) convertView.findViewById(R.id.hotspot_listview_item_time);
                     holder.hotspot_listview_item_content = (TextView) convertView.findViewById(R.id.hotspot_listview_item_content);
+                    holder.hotspot_listview_item_contentimage = (ImageView) convertView.findViewById(R.id.hotspot_listview_item_contentimage);
 
                     //凭借该方法添加标志,以判断是否以前创建过布局
                     convertView.setTag(holder);
@@ -92,6 +95,8 @@ public class HotspotListViewAdapter extends BaseAdapter {
                 holder.hotspot_listview_item_loc.setText(list.get(position).getmLoc());
                 holder.hotspot_listview_item_time.setText(list.get(position).getmTime());
                 holder.hotspot_listview_item_content.setText(list.get(position).getmContent());
+                ImageLoader.getInstance().displayImage(list.get(position).getmBitmap(), holder.hotspot_listview_item_contentimage);
+
                 switch (list.get(position).getmState()) {
                     case 0:     //正常
                         holder.hotspot_listview_item_state.setTextColor(0xFF00FF00);
@@ -119,6 +124,7 @@ public class HotspotListViewAdapter extends BaseAdapter {
         TextView hotspot_listview_item_content;
         TextView hotspot_listview_item_state;
         TextView hotspot_listview_item_time;
+        ImageView hotspot_listview_item_contentimage;
 
     }
 
