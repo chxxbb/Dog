@@ -124,10 +124,18 @@ public class HotspotFragment extends Fragment {
         return view;
     }
 
+    /**
+     * 隐藏热点页面的展示列表
+     */
     public void exitList() {
         hot_list_relativelayout.setVisibility(View.GONE);
     }
 
+    /**
+     * 判断展示列表是否正在展示
+     *
+     * @return 返回是否正在展示
+     */
     public boolean isListVisibility() {
 
         return hot_list_relativelayout.getVisibility() == View.GONE;
