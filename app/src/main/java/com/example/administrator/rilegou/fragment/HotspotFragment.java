@@ -124,6 +124,16 @@ public class HotspotFragment extends Fragment {
         return view;
     }
 
+    public void exitList() {
+        hot_list_relativelayout.setVisibility(View.GONE);
+    }
+
+    public boolean isListVisibility() {
+
+        return hot_list_relativelayout.getVisibility() == View.GONE;
+
+    }
+
     private void init() {
 
         hot_list_relativelayout = (RelativeLayout) view.findViewById(R.id.hot_list_relativelayout);

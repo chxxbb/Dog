@@ -6,9 +6,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.baidu.mapapi.map.MapView;
 import com.example.administrator.rilegou.R;
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     MyPageFragment myPageFragment;
 
     RadioButton rb_home_find, rb_home_hotspot, rb_home_mypage;
+
+    private long mExitTime;
 
 
     @Override
@@ -120,6 +124,52 @@ public class MainActivity extends AppCompatActivity {
         }
 
     };
+
+    /**
+     * 监听返回键,若已打开热点页面的展示列表的情况下点击返回键,则关闭展示列表而不退出Activity
+     * 2000毫秒内点击两次返回键才退出.
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (hotspotFragment != null) {      //判断是否创建了热点页面
+            if (hotspotFragment.isListVisibility()) {   //判断热点界面的展示列表是否处于显示状态
+                /**
+                 * 2000秒内点击两次返回键才退出程序
+                 */
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    if ((System.currentTimeMillis() - mExitTime) > 2000) {
+                        Object mHelperUtils;
+                        Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                        mExitTime = System.currentTimeMillis();
+
+                    } else {
+                        finish();
+                    }
+                    return true;
+                }
+                return super.onKeyDown(keyCode, event);
+            } else {    //关闭热点界面的展示列表
+                hotspotFragment.exitList();
+                return false;
+            }
+        } else {    //没有创建热点界面
+            /**
+             * 2000秒内点击两次返回键才退出程序
+             */
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                if ((System.currentTimeMillis() - mExitTime) > 2000) {
+                    Object mHelperUtils;
+                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                    mExitTime = System.currentTimeMillis();
+
+                } else {
+                    finish();
+                }
+                return true;
+            }
+            return super.onKeyDown(keyCode, event);
+        }
+    }
 
     /**
      * 百度地图的生命周期控制

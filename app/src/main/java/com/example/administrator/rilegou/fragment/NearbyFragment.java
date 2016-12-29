@@ -194,7 +194,10 @@ public class NearbyFragment extends Fragment {
 
     @Override
     public void onPause() {
-        mLocClient.stop();
+        if (mLocClient != null) {
+            mLocClient.stop();
+        }
+
         mLocClient = null;
         adapter = null;
         data = null;
