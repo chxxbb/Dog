@@ -204,6 +204,8 @@ public class ClusterManager<T extends ClusterItem> implements
 
     @Override
     public void onMapStatusChangeFinish(MapStatus mapStatus) {
+
+        //若本次地图改变后的中心点距离上次设置的中心点不超过0.005个经纬度单位(XY轴),则不刷新Mark点.
         if (Math.abs(MapData.now_mark_loc.latitude - mapStatus.target.latitude) > 0.005
                 || Math.abs(MapData.now_mark_loc.longitude - mapStatus.target.longitude) > 0.005) {
 

@@ -27,7 +27,6 @@ import java.io.File;
 
 public class LoginActivity extends AppCompatActivity {
 
-    //    TextView textView1, textView2;
     Button login_button;
     TextView registered, login_find_password_textview;
 
@@ -85,8 +84,11 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * 把assets里面的样式文件复制到SD卡,以便设置
+     */
     private void initMapStyle() {
-        //自定义地图
+        //自定义地图,把assets里面的样式文件复制到SD卡
         String appPath = "item/custom.txt";
         MapData.path = Environment.getExternalStorageDirectory().toString() + "/" + appPath;
 
@@ -114,6 +116,12 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 判断文件是否已经存在
+     *
+     * @param file 目标文件地址
+     * @return 文件是否存在
+     */
     public boolean fileIsExists(String file) {
         try {
             File f = new File(file);
@@ -127,6 +135,4 @@ public class LoginActivity extends AppCompatActivity {
         }
         return true;
     }
-
-
 }

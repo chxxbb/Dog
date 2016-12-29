@@ -1,6 +1,7 @@
 package com.example.administrator.rilegou.activity;
 
 
+import android.app.ActivityManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -35,11 +36,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //设置地图的样式
         MapData.mMapView.setCustomMapStylePath(MapData.path);
 
         MapData.view = getLayoutInflater().inflate(R.layout.fragment_hotspot, null);
 
-        // 地图初始化
+        //地图初始化
         MapData.mMapView = (MapView) MapData.view.findViewById(R.id.bmapView);
         //隐藏缩放按钮
         MapData.mMapView.showZoomControls(false);
@@ -119,6 +121,9 @@ public class MainActivity extends AppCompatActivity {
 
     };
 
+    /**
+     * 百度地图的生命周期控制
+     */
     @Override
     protected void onPause() {
         //在activity执行onPause时执行mMapView. onPause ()，实现地图生命周期管理
@@ -136,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         // 退出时销毁定位
-        if (MapData.mLocClient != null) {
+        if (MapData.mLocClient != null) {       //若从未进入任何需要定位的页面,则不需要销毁
             //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
             MapData.mLocClient.stop();
             // 关闭定位图层
@@ -144,6 +149,14 @@ public class MainActivity extends AppCompatActivity {
         }
         MapData.mMapView.onDestroy();
         MapData.mMapView = null;
+        MapData.mBaiduMap = null;
+
+//        //获取应用程序管理器
+//        ActivityManager manager = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
+//        manager.killBackgroundProcesses(getPackageName()); //强制结束当前应用程序
+
+        int pid = android.os.Process.myPid();    //获取当前应用程序的PID
+        android.os.Process.killProcess(pid);
 
         super.onDestroy();
     }

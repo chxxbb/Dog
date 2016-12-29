@@ -190,6 +190,11 @@ public class HotspotFragment extends Fragment {
         listView.setAdapter(hotspotListViewAdapter);
     }
 
+    /**
+     * 设置点聚合及相关的监听器
+     * <p>
+     * ClusterManager 代替了OnMapStatusChangeListener
+     */
     private void Point_aggregation() {
         // 定义点聚合管理类ClusterManager
         MapData.mClusterManager = new ClusterManager<MyItem>(getContext(), mBaiduMap);
@@ -287,14 +292,14 @@ public class HotspotFragment extends Fragment {
                 ms = builder.build();
                 mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
             }
-            if (latitude != null && longitude != null) {
+            if (latitude != null && longitude != null) {    //若本次定位与上次定位后设置的"焦点"相距不超过XY轴任意一边0.005的经纬度单位,则不刷新Mark点.
                 if (Math.abs(latitude - location.getLatitude()) > 0.005 || Math.abs(longitude - location.getLongitude()) > 0.005) {
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
                     LatLng latLng = new LatLng(latitude, longitude);
                     addMarkers(latLng, null);
                 }
-            } else {
+            } else {    //若是页面的第一次定位,则会进入这里执行.
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
                 LatLng latLng = new LatLng(latitude, longitude);
@@ -344,7 +349,6 @@ public class HotspotFragment extends Fragment {
                     MapData.mClusterManager.addItems(items);
                     if (mapStatus != null) {        //这是为了解决重新填入Mark点后,必须手动缩放地图才能刷新显示出来的BUG而采用的奇葩办法...(强行-0.001的缩放级别- -|||)
                         MapData.mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom((float) (mapStatus.zoom - 0.001)).build()));
-                        System.out.println("------------!null-----------");
                     }
 
                 } else {
@@ -352,6 +356,12 @@ public class HotspotFragment extends Fragment {
                 }
             }
 
+            /**
+             * 拿到单个点的数据,填充到Mark点里面去
+             * @param contents  单个点的数据
+             * @param items 所有已经填充好的点数据列表(一般没用,不知道为什么我当时要传进来- -|||)
+             * @return 填充好后, 返回单个点的相关类
+             */
             private MyItem addMarkersData(Contents contents, List<MyItem> items) {
                 LatLng llA = new LatLng(contents.getLocation().get(1), contents.getLocation().get(0));  //设置经纬度(纬度1,经度0)
                 return new MyItem(llA)

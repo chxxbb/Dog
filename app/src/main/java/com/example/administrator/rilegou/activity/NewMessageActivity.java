@@ -71,14 +71,19 @@ public class NewMessageActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_message_activity);
 
+        //获取当前时间
         initTime();
 
-        findID();
+        //绑定控件/监听/准备数据
+        find();
 
         startLoc();
 
     }
 
+    /**
+     * 关闭当前Activity的时候删除存在手机里面的临时照片
+     */
     @Override
     protected void onPause() {
         if (file != null && fileIsExists(MapData.path)) {
@@ -87,7 +92,12 @@ public class NewMessageActivity extends Activity {
         super.onPause();
     }
 
-    private void findID() {
+    /**
+     * 绑定控件
+     * 设置监听器
+     * 准备数据
+     */
+    private void find() {
         imageStr = getIntent().getExtras().getString("image");
         file = (File) getIntent().getExtras().get("file");
 
@@ -103,6 +113,9 @@ public class NewMessageActivity extends Activity {
         });
     }
 
+    /**
+     * 获取当前时间
+     */
     private void initTime() {
         GregorianCalendar calendar = new GregorianCalendar();
         month = calendar.get(Calendar.MONTH);
@@ -111,25 +124,28 @@ public class NewMessageActivity extends Activity {
         min = calendar.get(Calendar.MINUTE);
     }
 
+    /**
+     * 七牛云上传
+     * upkey 是文件上传后的文件名
+     */
     private void qiniuUp() {
         Configuration config = new Configuration.Builder().zone(Zone.httpAutoZone).build();
         //new一个uploadManager类
         uploadManager = new UploadManager(config);
 
         File file = new File(imageStr);
-        //设置上传后文件的key
+        //设置上传后文件的key(文件名)
         String upkey = null;
-        uploadManager.put(file, upkey, QiNiuKey.uptoken, new UpCompletionHandler() {
+        uploadManager.put(file, upkey, QiNiuKey.uptoken, new UpCompletionHandler() {    //设置上传属性并开始上传
             public void complete(String key, ResponseInfo rinfo, JSONObject response) {
 
-                if (rinfo.isOK()) {
-                    //显示上传后文件的url
+                if (rinfo.isOK()) {     //判断七牛云是否上传成功 imageUrl为上传成功后的文件链接
                     Gson gson = new Gson();
                     QiNiu_Json Urlkey = gson.fromJson("" + response, QiNiu_Json.class);
                     imageUrl = "http://oip7xw0lg.bkt.clouddn.com/" + Urlkey.getKey();
-                    System.out.println("url" + imageUrl);
+                    System.out.println("url" + imageUrl);   //显示上传后文件的url
 
-                    //开始上传
+                    //拿到七牛云反馈的文件链接后,开始百度地图数据的上传
                     OkHttpUtils
                             .post()
                             .url(MapData.ServiceUrl)
@@ -141,7 +157,7 @@ public class NewMessageActivity extends Activity {
                             .addParams("state", "1")
                             .addParams("message_id", "5")
                             .addParams("user_id", "1")
-                            .addParams("image", imageUrl)
+                            .addParams("image", imageUrl)   //七牛云的图片文件地址
                             .addParams("address", location1.getAddrStr())
                             .addParams("title", location1.getAddress().street)
                             .addParams("time", month + "月" + day + "日" + hour + "点" + min + "分")
@@ -176,6 +192,10 @@ public class NewMessageActivity extends Activity {
         }, new UploadOptions(null, "test-type", true, null, null));
     }
 
+    /**
+     * 进行定位
+     * option.setIsNeedAddress(true) 设置在定位的时候获取地址数据
+     */
     private void startLoc() {
         // 定位初始化
         mLocClient = new LocationClient(this);
@@ -189,6 +209,9 @@ public class NewMessageActivity extends Activity {
         mLocClient.start();
     }
 
+    /**
+     * 定位成功后会返回BDLocation到这里,在这里执行相关操作
+     */
     public class MyLocationListenner implements BDLocationListener {
 
         @Override
@@ -202,6 +225,7 @@ public class NewMessageActivity extends Activity {
 
             System.out.println("新消息页面定位完成");
 
+            //只定位一次
             mLocClient.stop();
 
         }
@@ -211,6 +235,12 @@ public class NewMessageActivity extends Activity {
         }
     }
 
+    /**
+     * 判断文件是否存在
+     *
+     * @param file 目标文件
+     * @return 文件是否存在
+     */
     public boolean fileIsExists(String file) {
         try {
             File f = new File(file);

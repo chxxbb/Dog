@@ -88,7 +88,7 @@ public class NewestFragment extends Fragment {
                     .get()
                     .url("http://api.map.baidu.com/geosearch/v3/local" + "?" + MapData.mCode)
                     .addParams("ak", MapData.Ak)
-                    .addParams("geotable_id", MapData.ServiceNumber)
+                    .addParams("geotable_id", MapData.ServiceId)
                     .addParams("location", location.getLongitude() + "," + location.getLatitude())
                     .addParams("sortby", "distance:1")
                     .addParams("region", location.getCountry())
@@ -135,4 +135,12 @@ public class NewestFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onPause() {
+        mLocClient.stop();
+        mLocClient = null;
+        adapter = null;
+        data = null;
+        super.onPause();
+    }
 }

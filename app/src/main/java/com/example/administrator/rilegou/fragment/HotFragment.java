@@ -52,12 +52,12 @@ public class HotFragment extends Fragment {
 
         findView();
 
-        init();
+        locinit();
 
         return view;
     }
 
-    private void init() {
+    private void locinit() {
         // 定位初始化
         mLocClient = new LocationClient(getActivity());
         mLocClient.registerLocationListener(myListener);
@@ -75,6 +75,9 @@ public class HotFragment extends Fragment {
 
     }
 
+    /**
+     * 定位成功后,会返回BDLocation,在里面做相关操作
+     */
     public class MyLocationListenner implements BDLocationListener {
 
         @Override
@@ -89,7 +92,7 @@ public class HotFragment extends Fragment {
                     .get()
                     .url("http://api.map.baidu.com/geosearch/v3/nearby" + "?" + MapData.mCode)
                     .addParams("ak", MapData.Ak)
-                    .addParams("geotable_id", MapData.ServiceNumber)
+                    .addParams("geotable_id", MapData.ServiceId)
                     .addParams("location", location.getLongitude() + "," + location.getLatitude())
                     .addParams("sortby", "distance:1")
                     .addParams("radius", "100000")
@@ -136,4 +139,12 @@ public class HotFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onPause() {
+        mLocClient.stop();
+        mLocClient = null;
+        adapter = null;
+        data = null;
+        super.onPause();
+    }
 }

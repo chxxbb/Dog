@@ -145,7 +145,7 @@ public class NearbyFragment extends Fragment {
                     .get()
                     .url("http://api.map.baidu.com/geosearch/v3/nearby" + "?" + MapData.mCode)
                     .addParams("ak", MapData.Ak)
-                    .addParams("geotable_id", MapData.ServiceNumber)
+                    .addParams("geotable_id", MapData.ServiceId)
                     .addParams("location", location.getLongitude() + "," + location.getLatitude())
                     .addParams("radius", "100000")
                     .addParams("sortby", "distance:1")
@@ -161,7 +161,7 @@ public class NearbyFragment extends Fragment {
                             Gson gson = new Gson();
                             Root root = gson.fromJson(response, Root.class);
 
-                            if (root.getStatus() == 0) {
+                            if (root.getStatus() == 0) {        //若返回码为0,则代表成功
                                 System.out.println("附近页面检索反馈正常");
                                 for (Contents contents : root.getContents()) {
                                     MyMessageItem myMessageItem = new MyMessageItem();
@@ -178,7 +178,7 @@ public class NearbyFragment extends Fragment {
                                 adapter = new NearbyListViewAdapter(getContext(), data);
                                 lv_nearby.setAdapter(adapter);
                                 adapter.notifyDataSetChanged();
-                                mLocClient.stop();
+                                mLocClient.stop();  //只定位一次
                             } else {
                                 System.out.println(response);
                             }
@@ -192,4 +192,12 @@ public class NearbyFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onPause() {
+        mLocClient.stop();
+        mLocClient = null;
+        adapter = null;
+        data = null;
+        super.onPause();
+    }
 }

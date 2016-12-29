@@ -2,6 +2,10 @@ package com.example.administrator.rilegou.data;
 
 /**
  * Created by Chen on 2016/12/24.
+ * 用于获取百度地图反馈的信息
+ * status 为返回码
+ * id     为本次操作的ID
+ * message为返回文本消息
  */
 public class Map_Lbs_ReturnJson_Data {
     private int status;
