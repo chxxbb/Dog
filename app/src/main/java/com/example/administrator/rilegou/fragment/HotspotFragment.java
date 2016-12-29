@@ -142,14 +142,20 @@ public class HotspotFragment extends Fragment {
 
     }
 
+    /**
+     * 获取控件
+     * 初始化展示列表的适配器
+     * 设置监听器
+     */
     private void init() {
 
+        //展示列表的容器
         hot_list_relativelayout = (RelativeLayout) view.findViewById(R.id.hot_list_relativelayout);
         linearParams = (RelativeLayout.LayoutParams) hot_list_relativelayout.getLayoutParams();
         height = linearParams.height;   //保存一下控件初始高度
 
+        //定位按钮
         locImagereLativelayout = (RelativeLayout) view.findViewById(R.id.hotspot_location_relativelayout);
-
         locImagereLativelayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,6 +166,7 @@ public class HotspotFragment extends Fragment {
         });
 
 
+        //我关注的 按钮
         focusRelativeLayout = (RelativeLayout) view.findViewById(R.id.hotspot_focus_relativelayout);
         focusImageView = (ImageView) view.findViewById(R.id.hotspot_focus_image);
 
@@ -180,6 +187,7 @@ public class HotspotFragment extends Fragment {
             }
         });
 
+        //我点赞的 按钮
         loveRelativeLayout = (RelativeLayout) view.findViewById(R.id.hotspot_love_relativelayout);
         loveImageView = (ImageView) view.findViewById(R.id.hotspot_love_image);
 
@@ -201,6 +209,7 @@ public class HotspotFragment extends Fragment {
         });
 
 
+        //展示列表展开后的顶部的横线,点击后隐藏展示列表
         hotspot_list_top_relativelayout = (RelativeLayout) view.findViewById(R.id.hotspot_list_top_relativelayout);
         hotspot_list_top_relativelayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,6 +219,7 @@ public class HotspotFragment extends Fragment {
         });
 
 
+        //展示列表的适配器 和 ListView
         listView = (ListView) view.findViewById(R.id.hotspot_list_listview);
         hotspotListViewAdapter = new HotspotListViewAdapter(getActivity());
         listView.setAdapter(hotspotListViewAdapter);
@@ -230,6 +240,7 @@ public class HotspotFragment extends Fragment {
         // 设置maker点击时的响应
         mBaiduMap.setOnMarkerClickListener(MapData.mClusterManager);
 
+        //点聚合后的多个Mark点的监听器
         MapData.mClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyItem>() {
             @Override
             public boolean onClusterClick(Cluster<MyItem> cluster) {
@@ -245,6 +256,8 @@ public class HotspotFragment extends Fragment {
                 return false;
             }
         });
+
+        //未进行点聚合的单个Mark点的监听器
         MapData.mClusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<MyItem>() {
             @Override
             public boolean onClusterItemClick(MyItem item) {
@@ -290,7 +303,9 @@ public class HotspotFragment extends Fragment {
 
     }
 
-
+    /**
+     * 定位初始化
+     */
     private void startLoc() {
         // 开启定位图层
         mBaiduMap.setMyLocationEnabled(true);
@@ -305,6 +320,10 @@ public class HotspotFragment extends Fragment {
         mLocClient.start();
     }
 
+    /**
+     * 定位成功后会在这里返回定位信息
+     * 在这里执行对应操作
+     */
     public class MyLocationListenner implements BDLocationListener {
 
         @Override

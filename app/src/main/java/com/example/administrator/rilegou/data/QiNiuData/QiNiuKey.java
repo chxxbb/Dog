@@ -6,5 +6,5 @@ package com.example.administrator.rilegou.data.QiNiuData;
 
 public class QiNiuKey {
     public static String uptoken =
-            "2mfij5tP6_1B0hlfZpFZVsP5GrbwT-2_CdVuM77o:Z_I0Qeoe9vNBSmYztSRF9qWKMpI=:eyJzY29wZSI6Im15ZG9nIiwiZGVhZGxpbmUiOjE0ODI4NTQ2MzJ9";
+            "2mfij5tP6_1B0hlfZpFZVsP5GrbwT-2_CdVuM77o:m-j6D1kOKtXzU3vhQX2Gl6pTky0=:eyJzY29wZSI6Im15ZG9nIiwiZGVhZGxpbmUiOjE0ODMwNDYzNzB9";
 }

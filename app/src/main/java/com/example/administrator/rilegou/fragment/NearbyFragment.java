@@ -119,6 +119,10 @@ public class NearbyFragment extends Fragment {
         banner.start();
     }
 
+    /**
+     * 定位初始化
+     * option.setIsNeedAddress(true)设置接收地址数据
+     */
     private void startLoc() {
         // 定位初始化
         mLocClient = new LocationClient(getActivity());
