@@ -6,14 +6,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
@@ -24,13 +20,9 @@ import com.example.administrator.rilegou.data.MapData;
 import com.example.administrator.rilegou.data.Map_Lbs_Json_Data.Contents;
 import com.example.administrator.rilegou.data.Map_Lbs_Json_Data.Root;
 import com.example.administrator.rilegou.data.MyMessageItem;
-import com.example.administrator.rilegou.utils.BannerImageLoader;
-import com.example.administrator.rilegou.view.ListViewForScrollView;
 import com.example.administrator.rilegou.adapter.NearbyListViewAdapter;
 import com.example.administrator.rilegou.R;
 import com.google.gson.Gson;
-import com.youth.banner.Banner;
-import com.youth.banner.BannerConfig;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -44,86 +36,30 @@ import okhttp3.Call;
  */
 public class NearbyFragment extends Fragment {
     View view;
-    Banner banner;
-    List<String> bannerList = new ArrayList<>();
-    ListViewForScrollView lv_nearby;
-    NearbyListViewAdapter adapter;
-    List<MyMessageItem> data = new ArrayList<>();
-    ScrollView scrollView;
+
+    ListView listView;
 
     //定位服务
     LocationClient mLocClient;
     public MyLocationListenner myListener = new MyLocationListenner();
 
+    //数据
+    NearbyListViewAdapter adapter;
+    List<MyMessageItem> data = new ArrayList<>();
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_nearbt, null);
+
         findView();
 
-        init();
+        locinit();
 
         return view;
     }
 
-
-    private void findView() {
-        banner = (Banner) view.findViewById(R.id.banner);
-
-        lv_nearby = (ListViewForScrollView) view.findViewById(R.id.lv_nearby);
-
-        scrollView = (ScrollView) view.findViewById(R.id.scrollView);
-
-        lv_nearby.setVerticalScrollBarEnabled(false);
-
-        scrollView.setVerticalScrollBarEnabled(false);
-
-        scrollView.smoothScrollTo(1, 1);
-
-    }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        scrollView.smoothScrollTo(1, 1);
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-
-        scrollView.smoothScrollTo(1, 1);
-
-    }
-
-
-    private void init() {
-        //准备数据
-        startLoc();
-
-        banner.setBannerStyle(BannerConfig.NOT_INDICATOR);
-
-        banner.setDelayTime(5000);
-
-        bannerList.add("http://ohpgig5p4.bkt.clouddn.com/PM.jpg");
-        bannerList.add("http://ohpgig5p4.bkt.clouddn.com/pm1.jpg");
-        bannerList.add("http://ohpgig5p4.bkt.clouddn.com/pm2.jpg");
-        bannerList.add("http://ohpgig5p4.bkt.clouddn.com/daxue.jpg");
-
-        banner.setImageLoader(new BannerImageLoader());
-        //设置图片集合
-        banner.setImages(bannerList);
-        //banner设置方法全部调用完毕时最后调用
-        banner.start();
-    }
-
-    /**
-     * 定位初始化
-     * option.setIsNeedAddress(true)设置接收地址数据
-     */
-    private void startLoc() {
+    private void locinit() {
         // 定位初始化
         mLocClient = new LocationClient(getActivity());
         mLocClient.registerLocationListener(myListener);
@@ -135,6 +71,15 @@ public class NearbyFragment extends Fragment {
         mLocClient.start();
     }
 
+    private void findView() {
+
+        listView = (ListView) view.findViewById(R.id.lv_nearby);
+
+    }
+
+    /**
+     * 定位成功后,会返回BDLocation,在里面做相关操作
+     */
     public class MyLocationListenner implements BDLocationListener {
 
         @Override
@@ -151,8 +96,8 @@ public class NearbyFragment extends Fragment {
                     .addParams("ak", MapData.Ak)
                     .addParams("geotable_id", MapData.ServiceId)
                     .addParams("location", location.getLongitude() + "," + location.getLatitude())
-                    .addParams("radius", "100000")
                     .addParams("sortby", "distance:1")
+                    .addParams("radius", "100000")
                     .build()
                     .execute(new StringCallback() {
                         @Override
@@ -177,12 +122,14 @@ public class NearbyFragment extends Fragment {
                                     myMessageItem.setTime(contents.getTime());
 
                                     data.add(myMessageItem);
+                                    data.add(myMessageItem);
+                                    data.add(myMessageItem);
 
                                 }
                                 adapter = new NearbyListViewAdapter(getContext(), data);
-                                lv_nearby.setAdapter(adapter);
+                                listView.setAdapter(adapter);
                                 adapter.notifyDataSetChanged();
-                                mLocClient.stop();  //只定位一次
+                                mLocClient.stop();
                             } else {
                                 System.out.println(response);
                             }

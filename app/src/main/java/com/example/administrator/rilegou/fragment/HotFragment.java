@@ -15,7 +15,9 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.example.administrator.rilegou.R;
+import com.example.administrator.rilegou.adapter.HotListAdapter;
 import com.example.administrator.rilegou.adapter.NearbyListViewAdapter;
+import com.example.administrator.rilegou.data.HotAdapterItem;
 import com.example.administrator.rilegou.data.MapData;
 import com.example.administrator.rilegou.data.Map_Lbs_Json_Data.Contents;
 import com.example.administrator.rilegou.data.Map_Lbs_Json_Data.Root;
@@ -42,8 +44,9 @@ public class HotFragment extends Fragment {
     public MyLocationListenner myListener = new MyLocationListenner();
 
     //数据
-    NearbyListViewAdapter adapter;
-    List<MyMessageItem> data = new ArrayList<>();
+    HotAdapterItem hotAdapterItem;
+    List<HotAdapterItem> list = new ArrayList<>();
+    HotListAdapter hotListAdapter;
 
     @Nullable
     @Override
@@ -72,7 +75,8 @@ public class HotFragment extends Fragment {
     private void findView() {
 
         listView = (ListView) view.findViewById(R.id.lv_hot);
-
+        hotListAdapter = new HotListAdapter(getActivity());
+        listView.setAdapter(hotListAdapter);
     }
 
     /**
@@ -110,21 +114,17 @@ public class HotFragment extends Fragment {
 
                             if (root.getStatus() == 0) {
                                 System.out.println("热门页面检索反馈正常");
+                                hotAdapterItem = new HotAdapterItem(0);
+                                list.add(hotAdapterItem);
                                 for (Contents contents : root.getContents()) {
-                                    MyMessageItem myMessageItem = new MyMessageItem();
 
-                                    myMessageItem.setContentImage(contents.getImage().getBig());
-                                    myMessageItem.setState(contents.getState());
-                                    myMessageItem.setAddress(contents.getTitle());
-                                    myMessageItem.setContent(contents.getContent());
-                                    myMessageItem.setTime(contents.getTime());
-
-                                    data.add(myMessageItem);
-
+                                    hotAdapterItem = new HotAdapterItem(1, contents.getImage().getBig(), contents.getState(), contents.getTitle(),
+                                            contents.getContent(), contents.getTime());
+                                    list.add(hotAdapterItem);
                                 }
-                                adapter = new NearbyListViewAdapter(getContext(), data);
-                                listView.setAdapter(adapter);
-                                adapter.notifyDataSetChanged();
+
+                                hotListAdapter.setList(list);
+                                hotListAdapter.notifyDataSetChanged();
                                 mLocClient.stop();
                             } else {
                                 System.out.println(response);

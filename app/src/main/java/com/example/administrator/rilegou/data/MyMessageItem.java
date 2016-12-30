@@ -4,13 +4,13 @@ package com.example.administrator.rilegou.data;
  * Created by Chen on 2016/12/23.
  */
 public class MyMessageItem {
-    String name;
-    String Address;
-    int state;
-    String userImage;
-    String contentImage;
-    String time;
-    String content;
+    private String name;
+    private String Address;
+    private int state;
+    private String userImage;
+    private String contentImage;
+    private String time;
+    private String content;
 
     public String getName() {
         return name;

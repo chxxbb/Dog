@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SDKInitializer.initialize(getApplicationContext());
+
         //去除title
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         //去掉Activity上面的状态栏
@@ -100,6 +100,7 @@ public class LoginActivity extends AppCompatActivity {
             file.delete();
             AssetsCopyTOSDcard assetsCopyTOSDcard = new AssetsCopyTOSDcard(getApplicationContext());
             assetsCopyTOSDcard.AssetToSD(appPath, MapData.path);
+            file = null;
         }
     }
 

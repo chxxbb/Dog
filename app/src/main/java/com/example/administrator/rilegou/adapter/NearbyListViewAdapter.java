@@ -28,10 +28,8 @@ import java.util.List;
  * Created by Administrator on 2016/12/8 0008.
  */
 public class NearbyListViewAdapter extends BaseAdapter {
-    Context context;
-    List<MyMessageItem> list;
-
-    NearbyUserIconAdapter adapter;
+    private Context context;
+    private List<MyMessageItem> list;
 
     public NearbyListViewAdapter(Context context, List<MyMessageItem> list) {
         this.context = context;
@@ -116,14 +114,14 @@ public class NearbyListViewAdapter extends BaseAdapter {
         for (int i = 0; i < 5; i++) {
             data.add("11");
         }
-        adapter = new NearbyUserIconAdapter(context, data);
+        NearbyUserIconAdapter adapter = new NearbyUserIconAdapter(context, data);
         viewHolder.recyclerView_user_icon.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
         return convertView;
     }
 
-    static class ViewHolder {
+    private static class ViewHolder {
         TextView tv;
         RecyclerView recyclerView_user_icon;
         TextView tv1;

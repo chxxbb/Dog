@@ -2,6 +2,7 @@ package com.example.administrator.rilegou.utils;
 
 import android.app.Application;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -39,6 +40,7 @@ public class ContextUtil extends Application {
         // 初始化ImageLoad
         ImageLoader.getInstance().init(config);
 
+        SDKInitializer.initialize(getApplicationContext());
 
 
     }
