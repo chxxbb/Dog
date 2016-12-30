@@ -37,6 +37,7 @@ public class RegisteredActivity extends Activity {
                 startActivity(intent);
                 finish();
                 ActivityData.LOGIN_ACTIVITY.finish();
+                ActivityData.LOGIN_ACTIVITY = null;
             }
         });
 

@@ -139,11 +139,4 @@ public class HotFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onPause() {
-        mLocClient = null;
-        adapter = null;
-        data = null;
-        super.onPause();
-    }
 }
