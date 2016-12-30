@@ -23,6 +23,16 @@ public class HotAdapterItem {
         this.type = type;
     }
 
+    /**
+     * 创建时,传入需要加载的布局编码和数据
+     *
+     * @param type    需要调用的布局编码
+     * @param image   内容图片
+     * @param state   动物状态
+     * @param address 地址信息
+     * @param content 文本内容
+     * @param time    发布时间
+     */
     public HotAdapterItem(int type, String image, int state, String address, String content, String time) {
         this.type = type;
         this.image = image;

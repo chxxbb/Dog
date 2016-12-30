@@ -77,8 +77,11 @@ public class HotListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         int type = getItemViewType(position);   //确认当前要加载的布局的类型
         switch (type) {
+            /**
+             * Banner 不需要设置优化,否则会导致刷新页面的时候,Banner内的图片总数异常增多
+             */
             case HotAdapterItem.BannerAndContent:
-                HotListBanner_Holder holder = null;
+                HotListBanner_Holder holder;
                 convertView = activity.getLayoutInflater().inflate(R.layout.bannerview, null);
                 holder = new HotListBanner_Holder();
 
@@ -100,8 +103,12 @@ public class HotListAdapter extends BaseAdapter {
                 convertView.setTag(holder);
 
                 break;
+
+            /**
+             * 消息布局
+             */
             case HotAdapterItem.HotContent:
-                HotListContent_Holder viewHolder = null;
+                HotListContent_Holder viewHolder;
                 if (convertView == null) {
                     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
                     convertView = inflater.inflate(R.layout.nearby_listv_item, parent, false);
@@ -170,11 +177,11 @@ public class HotListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    static class HotListBanner_Holder {
+    private static class HotListBanner_Holder {
         Banner banner;
     }
 
-    static class HotListContent_Holder {
+    private static class HotListContent_Holder {
         TextView tv;
         RecyclerView recyclerView_user_icon;
         TextView tv1;

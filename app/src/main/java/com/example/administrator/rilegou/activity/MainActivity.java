@@ -138,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
                  */
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
                     if ((System.currentTimeMillis() - mExitTime) > 2000) {
-                        Object mHelperUtils;
                         Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
                         mExitTime = System.currentTimeMillis();
 
@@ -158,7 +157,6 @@ public class MainActivity extends AppCompatActivity {
              */
             if (keyCode == KeyEvent.KEYCODE_BACK) {
                 if ((System.currentTimeMillis() - mExitTime) > 2000) {
-                    Object mHelperUtils;
                     Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
                     mExitTime = System.currentTimeMillis();
 

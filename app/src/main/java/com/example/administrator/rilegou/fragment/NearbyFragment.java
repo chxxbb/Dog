@@ -122,8 +122,6 @@ public class NearbyFragment extends Fragment {
                                     myMessageItem.setTime(contents.getTime());
 
                                     data.add(myMessageItem);
-                                    data.add(myMessageItem);
-                                    data.add(myMessageItem);
 
                                 }
                                 adapter = new NearbyListViewAdapter(getContext(), data);

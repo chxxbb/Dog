@@ -71,7 +71,7 @@ public class HotspotListViewAdapter extends BaseAdapter {
         int type = getItemViewType(position);   //确认当前要加载的布局的类型
         switch (type) {
             case AdapterItemList.Content:
-                Hotspot_Holder holder = null;
+                Hotspot_Holder holder;
 
                 if (convertView == null) {  //if判断该布局是否以前创建过,若是,则直接填充数据.此方法优化运行速度和缓存
                     convertView = activity.getLayoutInflater().inflate(R.layout.hotspot_listview_item, null);
@@ -117,7 +117,7 @@ public class HotspotListViewAdapter extends BaseAdapter {
         return convertView;
     }
 
-    static class Hotspot_Holder {
+    private static class Hotspot_Holder {
 
         TextView hotspot_listview_item_username;
         TextView hotspot_listview_item_loc;
