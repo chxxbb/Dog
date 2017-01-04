@@ -1,125 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff2bf">
+    android:background="@null">
 
     <RelativeLayout
-        android:id="@+id/new_message_title_relativelayout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/y85"
-        android:background="@color/topgreen"
-        android:elevation="@dimen/y5"
-        android:gravity="center_vertical">
-
-        <RelativeLayout
-            android:id="@+id/new_message_exit"
-            android:layout_width="@dimen/x120"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:includeFontPadding="false"
-                android:lineSpacingMultiplier="0.9"
-                android:text="取消"
-                android:textColor="@color/white"
-                android:textSize="@dimen/y28" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/new_message_sendmessage_relativelayout"
-            android:layout_width="@dimen/x120"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:includeFontPadding="false"
-                android:lineSpacingMultiplier="0.9"
-                android:text="发表"
-                android:textColor="@color/white"
-                android:textSize="@dimen/y28" />
-
-        </RelativeLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:includeFontPadding="false"
-            android:lineSpacingMultiplier="0.9"
-            android:text="新发现"
-            android:textColor="@color/white"
-            android:textSize="@dimen/y32" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/new_message_content_relativelayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/new_message_title_relativelayout"
-        android:layout_marginTop="@dimen/y3"
-        android:background="#ffffff">
-
-        <EditText
-            android:id="@+id/new_message_content_edittext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/x30"
-            android:layout_marginRight="@dimen/x30"
-            android:layout_marginTop="@dimen/x30"
-            android:background="@null"
-            android:hint="说点什么吧..."
-            android:maxLines="7"
-            android:minLines="3"
-            android:textColor="#515151"
-            android:textColorHint="#9c9c9c"
-            android:textCursorDrawable="@null"
-            android:textSize="@dimen/y28" />
-
-        <ImageView
-            android:id="@+id/new_message_content_imageview"
-            android:layout_width="@dimen/x200"
-            android:layout_height="@dimen/x200"
-            android:layout_below="@id/new_message_content_edittext"
-            android:layout_marginLeft="@dimen/x30"
-            android:layout_marginTop="@dimen/y30"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/test" />
-
+        android:background="#fff2bf">
 
         <RelativeLayout
-            android:id="@+id/new_message_loc_relativelayout"
+            android:id="@+id/new_message_title_relativelayout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y80"
-            android:layout_below="@id/new_message_content_imageview"
-            android:layout_marginTop="@dimen/y30">
+            android:layout_height="@dimen/y85"
+            android:background="@color/topgreen"
+            android:elevation="@dimen/y5"
+            android:gravity="center_vertical">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/y1"
-                android:layout_marginLeft="@dimen/x30"
-                android:background="#e0e0e0" />
+            <RelativeLayout
+                android:id="@+id/new_message_exit"
+                android:layout_width="@dimen/x120"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:includeFontPadding="false"
+                    android:lineSpacingMultiplier="0.9"
+                    android:text="取消"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/y28" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/new_message_sendmessage_relativelayout"
+                android:layout_width="@dimen/x120"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:includeFontPadding="false"
+                    android:lineSpacingMultiplier="0.9"
+                    android:text="发表"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/y28" />
+
+            </RelativeLayout>
 
             <TextView
-                android:id="@+id/new_message_loc_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:includeFontPadding="false"
+                android:lineSpacingMultiplier="0.9"
+                android:text="新发现"
+                android:textColor="@color/white"
+                android:textSize="@dimen/y32" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/new_message_content_relativelayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/new_message_title_relativelayout"
+            android:layout_marginTop="@dimen/y3"
+            android:background="#ffffff">
+
+            <EditText
+                android:id="@+id/new_message_content_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x30"
+                android:layout_marginRight="@dimen/x30"
+                android:layout_marginTop="@dimen/x30"
+                android:background="@null"
+                android:hint="说点什么吧..."
+                android:maxLines="6"
+                android:minLines="3"
+                android:textColor="#515151"
+                android:textColorHint="#9c9c9c"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/y28" />
+
+            <ImageView
+                android:id="@+id/new_message_content_imageview"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y700"
+                android:layout_below="@id/new_message_content_edittext"
+                android:layout_marginTop="@dimen/y30"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/test" />
+
+
+            <RelativeLayout
+                android:id="@+id/new_message_loc_relativelayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y80"
+                android:layout_below="@id/new_message_content_imageview"
+                android:layout_marginTop="@dimen/y50">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y1"
+                    android:layout_marginLeft="@dimen/x30"
+                    android:background="#e0e0e0" />
+
+                <TextView
+                    android:id="@+id/new_message_loc_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/x30"
+                    android:includeFontPadding="false"
+                    android:lineSpacingMultiplier="0.9"
+                    android:text="显示地点"
+                    android:textColor="#515151"
+                    android:textSize="@dimen/y28" />
+
+                <ImageView
+                    android:layout_width="@dimen/x17"
+                    android:layout_height="@dimen/y31"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/x30"
+                    android:src="@mipmap/enter" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/new_message_state_relativelayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y80"
+            android:layout_below="@id/new_message_content_relativelayout"
+            android:layout_marginBottom="@dimen/y80"
+            android:layout_marginTop="@dimen/y30"
+            android:background="#ffffff">
+
+            <TextView
+                android:id="@+id/new_message_state_title_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/x30"
                 android:includeFontPadding="false"
                 android:lineSpacingMultiplier="0.9"
-                android:text="显示地点"
+                android:text="它的状态"
                 android:textColor="#515151"
                 android:textSize="@dimen/y28" />
 
             <ImageView
+                android:id="@+id/new_message_state_imageview"
                 android:layout_width="@dimen/x17"
                 android:layout_height="@dimen/y31"
                 android:layout_alignParentRight="true"
@@ -127,70 +165,22 @@
                 android:layout_marginRight="@dimen/x30"
                 android:src="@mipmap/enter" />
 
+            <TextView
+                android:id="@+id/new_message_state_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/x30"
+                android:layout_toLeftOf="@id/new_message_state_imageview"
+                android:includeFontPadding="false"
+                android:lineSpacingMultiplier="0.9"
+                android:text="伤病"
+                android:textColor="#ff9900"
+                android:textSize="@dimen/y28" />
+
         </RelativeLayout>
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/new_message_state_relativelayout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/y80"
-        android:layout_below="@id/new_message_content_relativelayout"
-        android:layout_marginTop="@dimen/y30"
-        android:background="#ffffff">
 
-        <TextView
-            android:id="@+id/new_message_state_title_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x30"
-            android:includeFontPadding="false"
-            android:lineSpacingMultiplier="0.9"
-            android:text="它的状态"
-            android:textColor="#515151"
-            android:textSize="@dimen/y28" />
-
-        <ImageView
-            android:id="@+id/new_message_state_imageview"
-            android:layout_width="@dimen/x17"
-            android:layout_height="@dimen/y31"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/x30"
-            android:src="@mipmap/enter" />
-
-        <TextView
-            android:id="@+id/new_message_state_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/x30"
-            android:layout_toLeftOf="@id/new_message_state_imageview"
-            android:includeFontPadding="false"
-            android:lineSpacingMultiplier="0.9"
-            android:text="伤病"
-            android:textColor="#ff9900"
-            android:textSize="@dimen/y28" />
-
-    </RelativeLayout>
-
-
-    <ImageView
-        android:id="@+id/new_message_imageview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
-
-    <Button
-        android:id="@+id/new_message_send_button"
-        android:layout_width="@dimen/x180"
-        android:layout_height="@dimen/y80"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="提交"
-        android:textColor="#000000"
-        android:textSize="@dimen/x24"
-        android:visibility="gone" />
-
-</RelativeLayout>
+</ScrollView>

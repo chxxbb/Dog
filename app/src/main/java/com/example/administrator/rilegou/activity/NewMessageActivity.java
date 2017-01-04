@@ -45,7 +45,6 @@ import okhttp3.Call;
  */
 public class NewMessageActivity extends Activity implements View.OnClickListener {
 
-    Button new_message_send_button;
     String imageStr;
     File file;
 
@@ -116,8 +115,6 @@ public class NewMessageActivity extends Activity implements View.OnClickListener
     private void find() {
         imageStr = getIntent().getExtras().getString("image");
         file = (File) getIntent().getExtras().get("file");
-
-        new_message_send_button = (Button) findViewById(R.id.new_message_send_button);
 
         //发表按钮的控件绑定监听
         new_message_sendmessage_relativelayout = (RelativeLayout) findViewById(R.id.new_message_sendmessage_relativelayout);
@@ -223,6 +220,8 @@ public class NewMessageActivity extends Activity implements View.OnClickListener
 
                                     if (map_lbs_returnJson_data.getStatus() == 0) {
                                         System.out.println("云存储成功");
+                                        Toast.makeText(NewMessageActivity.this, "发表成功", Toast.LENGTH_LONG).show();
+                                        finish();
                                     } else {
                                         System.out.println("云存储失败,错误代码: " + map_lbs_returnJson_data.getStatus() + ",错误信息: " + map_lbs_returnJson_data.getMessage());
                                     }
