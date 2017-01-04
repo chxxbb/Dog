@@ -250,12 +250,7 @@ public class HotspotFragment extends Fragment {
                         "有" + cluster.getSize() + "个点", Toast.LENGTH_SHORT).show();
                 setMarkers(cluster, null);
 
-//                if (linearParams.height != height) {    //若高度不等于初始高度,则说明已经被改变,改回来之.
-//                    linearParams.height = linearParams.height * 2;
-//                    hot_list_relativelayout.setLayoutParams(linearParams);
-//                }
-
-                if (listHeight) {
+                if (listHeight) {   //若高度不等于初始高度,则说明已经被改变,改回来之.
                     linearParams.height = height;
                     hot_list_relativelayout.setLayoutParams(linearParams);
                     listHeight = false;
@@ -273,12 +268,7 @@ public class HotspotFragment extends Fragment {
                         "点击单个Item", Toast.LENGTH_SHORT).show();
                 setMarkers(null, item);
 
-//                if (linearParams.height != height / 2) {    //若不等于初始高度除以二,则除以二以适应单个item的布局.
-//                    linearParams.height = linearParams.height / 2;
-//                    hot_list_relativelayout.setLayoutParams(linearParams);
-//                }
-
-                if (!listHeight) {
+                if (!listHeight) {  //若点击的是单个Mark,则除以二以适应单个item的布局.
                     linearParams.height = linearParams.height / 2;
                     hot_list_relativelayout.setLayoutParams(linearParams);
                     listHeight = true;
