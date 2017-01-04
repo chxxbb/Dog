@@ -71,8 +71,10 @@ public class HotspotFragment extends Fragment {
     HotspotListViewAdapter hotspotListViewAdapter;
     RelativeLayout hot_list_relativelayout;
     RelativeLayout.LayoutParams linearParams;   //用来动态设置高度
-    double height;
     RelativeLayout hotspot_list_top_relativelayout;
+
+    private boolean listHeight = false;
+    private int height;
 
 
     //基础地图相关
@@ -248,9 +250,15 @@ public class HotspotFragment extends Fragment {
                         "有" + cluster.getSize() + "个点", Toast.LENGTH_SHORT).show();
                 setMarkers(cluster, null);
 
-                if (linearParams.height != height) {    //若高度不等于初始高度,则说明已经被改变,改回来之.
-                    linearParams.height = linearParams.height * 2;
+//                if (linearParams.height != height) {    //若高度不等于初始高度,则说明已经被改变,改回来之.
+//                    linearParams.height = linearParams.height * 2;
+//                    hot_list_relativelayout.setLayoutParams(linearParams);
+//                }
+
+                if (listHeight) {
+                    linearParams.height = height;
                     hot_list_relativelayout.setLayoutParams(linearParams);
+                    listHeight = false;
                 }
 
                 return false;
@@ -265,9 +273,15 @@ public class HotspotFragment extends Fragment {
                         "点击单个Item", Toast.LENGTH_SHORT).show();
                 setMarkers(null, item);
 
-                if (linearParams.height != height / 2) {    //若不等于初始高度除以二,则除以二以适应单个item的布局.
+//                if (linearParams.height != height / 2) {    //若不等于初始高度除以二,则除以二以适应单个item的布局.
+//                    linearParams.height = linearParams.height / 2;
+//                    hot_list_relativelayout.setLayoutParams(linearParams);
+//                }
+
+                if (!listHeight) {
                     linearParams.height = linearParams.height / 2;
                     hot_list_relativelayout.setLayoutParams(linearParams);
+                    listHeight = true;
                 }
 
                 return false;
