@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
@@ -41,12 +43,26 @@ import okhttp3.Call;
 /**
  * Created by Chen on 2016/12/24.
  */
-public class NewMessageActivity extends Activity {
+public class NewMessageActivity extends Activity implements View.OnClickListener {
 
-    ImageView new_message_imageview;
     Button new_message_send_button;
     String imageStr;
     File file;
+
+    //发表按钮的控件
+    RelativeLayout new_message_sendmessage_relativelayout;
+
+    //退出控件
+    RelativeLayout new_message_exit;
+
+    //图片
+    ImageView new_message_content_imageview;
+
+    //地点选择按钮
+    RelativeLayout new_message_loc_relativelayout;
+
+    //状态选择按钮
+    RelativeLayout new_message_state_relativelayout;
 
     //定位服务
     LocationClient mLocClient;
@@ -101,16 +117,28 @@ public class NewMessageActivity extends Activity {
         imageStr = getIntent().getExtras().getString("image");
         file = (File) getIntent().getExtras().get("file");
 
-        new_message_imageview = (ImageView) findViewById(R.id.new_message_imageview);
         new_message_send_button = (Button) findViewById(R.id.new_message_send_button);
 
-        ImageLoader.getInstance().displayImage("file://" + imageStr, new_message_imageview);
-        new_message_send_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                qiniuUp();
-            }
-        });
+        //发表按钮的控件绑定监听
+        new_message_sendmessage_relativelayout = (RelativeLayout) findViewById(R.id.new_message_sendmessage_relativelayout);
+        new_message_sendmessage_relativelayout.setOnClickListener(this);
+
+        //退出绑定
+        new_message_exit = (RelativeLayout) findViewById(R.id.new_message_exit);
+        new_message_exit.setOnClickListener(this);
+
+        //设置图片
+        new_message_content_imageview = (ImageView) findViewById(R.id.new_message_content_imageview);
+        ImageLoader.getInstance().displayImage("file://" + imageStr, new_message_content_imageview);
+
+        //地点选择按钮
+        new_message_loc_relativelayout = (RelativeLayout) findViewById(R.id.new_message_loc_relativelayout);
+        new_message_loc_relativelayout.setOnClickListener(this);
+
+        //状态选择按钮
+        new_message_state_relativelayout = (RelativeLayout) findViewById(R.id.new_message_state_relativelayout);
+        new_message_state_relativelayout.setOnClickListener(this);
+
     }
 
     /**
@@ -122,6 +150,25 @@ public class NewMessageActivity extends Activity {
         day = calendar.get(Calendar.DAY_OF_MONTH);
         hour = calendar.get(Calendar.HOUR_OF_DAY);
         min = calendar.get(Calendar.MINUTE);
+    }
+
+    /**
+     * 监听器设置
+     */
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.new_message_exit:
+                finish();
+                break;
+            case R.id.new_message_sendmessage_relativelayout:
+                qiniuUp();
+                break;
+            case R.id.new_message_loc_relativelayout:
+                break;
+            case R.id.new_message_state_relativelayout:
+                break;
+        }
     }
 
     /**
@@ -208,6 +255,7 @@ public class NewMessageActivity extends Activity {
         MapData.mLocClient = mLocClient;
         mLocClient.start();
     }
+
 
     /**
      * 定位成功后会返回BDLocation到这里,在这里执行相关操作
